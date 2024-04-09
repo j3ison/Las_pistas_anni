@@ -1,0 +1,100 @@
+<div class="head" [ngClass]="getHeadClass()">
+    <div class="head-content">
+        <div class="head-content-left">
+            <div class="container-title">
+                <img src="'../../../../../assets/images/logo-hd.png" alt="las pistas de anni" style="height: 50px;">
+                <!-- <h1 class="title">{{setTitle(this.router.url.slice(1))}}</h1> -->
+            </div>
+        </div>
+
+        <div class="head-content-right">
+            <div class="head-menu">
+                <ul class="container-menu">
+                    <li class="content-item-menu">
+                        <a class="content-item-item-menu" [ngClass]="getActiveClass('inicio')" (click)="setClickRouter('/inicio')">
+                            <i class="icon-menu fa-solid fa-house" style="margin-right: 0.5rem;"></i>
+                            <span class="text-menu">Inicio</span>
+                        </a>
+                    </li>
+                    <li class="content-item-menu">
+                        <a class="content-item-item-menu" [ngClass]="getActiveClass('mascotas')" (click)="setClickRouter('/mascotas')">
+                            <i class="icon-menu fa-solid fa-dog" style="margin-right: 0.5rem;"></i>
+                            <i class=""></i>
+                            <span class="text-menu">Mascotas</span>
+                        </a>
+                    </li>
+                    <li class="content-item-menu">
+                        <a class="content-item-item-menu" [ngClass]="getActiveClass('reservas')" (click)="setClickRouter('/reservas')">
+                            <i class="icon-menu fa-solid fa-calendar-days" style="margin-right: 0.5rem;"></i>
+                            <span class="text-menu">Reservas</span>
+                        </a>
+                    </li>
+                    <li class="content-item-menu">
+                        <a class="content-item-item-menu" [ngClass]="getActiveClass('servicios')" (click)="setClickRouter('/servicios')">
+                            <i class="icon-menu fa-solid fa-briefcase" style="margin-right: 0.5rem;"></i>
+                            <span class="text-menu">Servicios</span>
+                        </a>
+                    </li>
+                    <li class="content-item-menu">
+                        <a class="content-item-item-menu" [ngClass]="getActiveClass('productos')" (click)="setClickRouter('/productos')">
+                            <i class="icon-menu fa-solid fa-boxes-stacked" style="margin-right: 0.5rem;"></i>
+                            <span class="text-menu">Producto</span>
+                        </a>
+                    </li>
+                    <li class="content-item-menu">
+                        <a class="content-item-item-menu" [ngClass]="getActiveClass('pago')" (click)="setClickRouter('/pago')">
+                            <i class="icon-menu fa-solid fa-money-bill" style="margin-right: 0.5rem;"></i>
+                            <span class="text-menu">Pago</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="head-user-logout">
+                    <i class="door fa-solid" [ngClass]="classIconLogout()" (mouseover)="iconLogout=!iconLogout"
+                        (mouseout)="iconLogout=!iconLogout" (click)="clickLogout()" matTooltip="Cerrar Sesión"></i>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #userOverlay>
+    <div class="overlay overlay-user overlay-fall" cdkMenu>
+        <ul class="ul">
+            <li class="li">
+                <a class="a" routerLink="/ayuda">
+                    <i class="icon fa-solid fa-circle-info"></i>
+                    <span>Ayuda</span>
+                </a>
+            </li>
+            <li class="li">
+                <a (click)="OnclickLogout()">
+                    <i class="icon" [ngClass]="iconClassLogout"></i>
+                    <span>Cerrar sesión</span>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+</ng-template>
+
+<ng-template #notification>
+    <div class="overlay overlay-notification overlay-fall" cdkMenu>
+        <div class="notification-container">
+            <div class="notification-header">
+                <img class="notification-header-img" src="https://cdn-icons-png.flaticon.com/512/4114/4114739.png" alt="dog">
+                <h1 class="notification-header-title">Notificaciones</h1>
+            </div>
+            <ul class="notification-nav-item" *ngFor="let data of notificationItems">
+                <li class="notification-nav-li">
+                    <a class="notificacion-nav-a">
+                        <i class="notificacion-icon fa-solid fa-triangle-exclamation"></i>
+                        <span class="notification-text">El producto {{data.codProducto}} ha alcanzado el nivel mínimo de existencias.</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</ng-template>

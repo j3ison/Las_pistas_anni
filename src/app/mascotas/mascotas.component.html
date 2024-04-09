@@ -1,0 +1,77 @@
+<app-table [data]="myData$" [columns]="tableColumns" >
+
+</app-table>
+
+<div class="container-form">
+    <form class="content-form">
+        <h1>Formulario Usuarios</h1>
+        <div class="content-form-item">
+            <div class="form">
+                <label class="title">Cedula</label>
+                <input class="form-data" type="text" >
+                <i class="fa-solid fa-address-book"></i>
+            </div>
+            <div class="form">
+                <label class="title">Nombre del propietario</label>
+                <input class="form-data" type="text" >
+                <i class="fa-solid fa-address-book"></i>
+            </div>
+        </div>
+        <div class="content-form-item">
+            <div class="form">
+                <label class="title">Telefono</label>
+                <input class="form-data" type="text" >
+                <i class="fa-solid fa-address-book"></i>
+            </div>
+            
+                <mat-form-field class="form" >
+                    <mat-label>Dirección</mat-label>
+                    <textarea matInput placeholder=""></textarea>
+                </mat-form-field>
+            
+        </div>
+        <div> 
+            <h1>Datos de la mascota</h1>
+        </div>
+        <div class="content-form-item">
+            <div class="form">
+                <label class="title">Nombre de Mascota</label>
+                <input class="form-data" type="text" >
+                <i class="fa-solid fa-address-book"></i>
+            </div>
+            <div class="form">
+                <label class="title">Sexo</label>
+                <input class="form-data" type="text" >
+                <i class="fa-solid fa-address-book"></i>
+            </div>
+        </div>
+        <div class="content-form-item">
+            <div class="form">
+                <label class="title">Especie</label>
+                <input class="form-data" type="text" >
+                <i class="fa-solid fa-address-book"></i>
+            </div>
+            <div class="form">
+                <label class="title">Fecha de Nacimiento</label>
+                <input class="form-data" type="text" >
+                <i class="fa-solid fa-address-book"></i>
+            </div>
+        </div>
+        <div class="content-form-item">
+            <mat-form-field class="form">
+                <mat-label>Historial de la mascota</mat-label>
+                <textarea matInput placeholder=""></textarea>
+            </mat-form-field>
+        </div>
+        <div class="form-button">
+            <button class="btn btn-danger" #btnEnviar>
+                Cancelar
+            </button>
+
+            <button class="btn btn-primary" #btnEnviar>
+                Guardar
+            </button>
+        </div>
+
+    </form>
+</div>
