@@ -40,10 +40,10 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   </span>
   
-                  <mat-form-field class="full-width input" appearance="outline">
+                  <mat-form-field class="full-width input" appearance="outline" style="background: transparent !important;">
                     <mat-label style="font-family: 'Crimson Text', serif; font-weight: 900;">Contraseña</mat-label>
                     <input formControlName="password" matInput [type]=" hide ? 'password' : 'text'" required
-                      name="password" [(ngModel)]="password" style="font-family: 'Crimson Text', serif;" />
+                      name="password" [(ngModel)]="password" style="font-family: 'Crimson Text', serif; background-color: transparent !important;" />
                     <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'"
                       [attr.aria-pressed]="hide">
                       <mat-icon>

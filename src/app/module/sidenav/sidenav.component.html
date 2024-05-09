@@ -1,15 +1,16 @@
 <div class="sidenav" [ngClass]="collapsed ? 'sidenav-collapsed': ''">
     <div class="logo-container">
-        <img class="logo" src="../../assets/images/logo.svg" alt="Central Optic logo" (click)="toggleCollapse()">
-        <div class="logo-text" @fadeInOut *ngIf="collapsed">Central Optic</div>
-        <button class="btn-close" @rotate *ngIf="collapsed" (click)="closeSidenav()">
-            <i class="fal fa-times close-icon"></i>
-        </button>
+        <img class="logo" src="../../../assets/images/profile.jpg" alt="Central Optic logo" (click)="toggleCollapse()">
+        <div class="logo-text" @fadeInOut *ngIf="collapsed">Las pistas de Anni</div>
+        <!-- <button class="btn-close" @rotate *ngIf="collapsed" (click)="closeSidenav()"> -->
+            <!-- <i class="fal fa-times close-icon"></i> -->
+            <!-- <i class="fa-solid fa-paw"></i> -->
+        <!-- </button> -->
     </div>
     <div class="scrollwrap scrollwrap_delayed">
         <ul class="sidenav-nav">
             <li class="sidenav-nav-item" *ngFor="let data of navData">
-                <div *akoShowForRoles="data.role">
+                <div >
                     <a class="sidenav-nav-link" (click)="handleClick(data)" *ngIf="data.items && data.items.length > 0"
                         [ngClass]="getActiveClass(data)" [matTooltip]="navTooltipText(data.label)" matTooltipPosition="right">
                         <i *ngIf="data.icon" class="sidenav-link-icon" [class]="data.icon"></i>
@@ -45,14 +46,11 @@
         </ul>
     </div>
 
-    <div class="profile-container" [cdkMenuTriggerFor]="userOverlay" (menuOpened)="onMenuOpened()" (menuClosed)="onMenuClosed()">
+    <!-- <div class="profile-container" [cdkMenuTriggerFor]="userOverlay" (menuOpened)="onMenuOpened()" (menuClosed)="onMenuClosed()">
         <img class="logo-profile" src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         alt="Profile Picture">
         <div class="profile-text" @fadeInOut *ngIf="collapsed">{{name}}</div>
-        <!-- <button class="btn-close" @rotate *ngIf="collapsed" (click)="closeSidenav()">
-            <i class="fal fa-times close-icon"></i>
-        </button> -->
-    </div>
+    </div> -->
 
 </div>
 

@@ -1,78 +1,167 @@
-<app-table [data]="myData$" [columns]="tableColumns" >
-
+<app-table [data]="myData$" [columns]="tableColumns" [setItemACtion]="itemAction">
 </app-table>
 
-<div class="container-form">
-    <form class="content-form">
-        <h1>Formulario Usuarios</h1>
-        <div class="content-form-item">
-            <div class="form">
-                <label class="title">Cedula</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
+
+<ng-template #formCreate>
+    <div class="container-form">
+        <form class="content-form">
+            <h1>Formulario Usuarios</h1>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Cedula</label>
+                    <input class="form-data" type="text" >
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+                <div class="form">
+                    <label class="title">Nombre del propietario</label>
+                    <input class="form-data" type="text" >
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
             </div>
-            <div class="form">
-                <label class="title">Nombre del propietario</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Telefono</label>
+                    <input class="form-data" type="text" >
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+                
+                    <mat-form-field class="form" >
+                        <mat-label>Dirección</mat-label>
+                        <textarea matInput placeholder=""></textarea>
+                    </mat-form-field>
+                
             </div>
-        </div>
-        <div class="content-form-item">
-            <div class="form">
-                <label class="title">Telefono</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
+            <div> 
+                <h1>Datos de la mascota</h1>
             </div>
-            
-                <mat-form-field class="form" >
-                    <mat-label>Dirección</mat-label>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Nombre de Mascota</label>
+                    <input class="form-data" type="text" >
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+                <div class="form">
+                    <label class="title">Sexo</label>
+                    <input class="form-data" type="text" >
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+            </div>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Especie</label>
+                    <input class="form-data" type="text" >
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+                <div class="form">
+                    <label class="title">Fecha de Nacimiento</label>
+                    <input class="form-data" type="text" >
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+            </div>
+            <div class="content-form-item">
+                <mat-form-field class="form">
+                    <mat-label>Historial de la mascota</mat-label>
                     <textarea matInput placeholder=""></textarea>
                 </mat-form-field>
-            
-        </div>
-        <div> 
-            <h1>Datos de la mascota</h1>
-        </div>
-        <div class="content-form-item">
-            <div class="form">
-                <label class="title">Nombre de Mascota</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
             </div>
-            <div class="form">
-                <label class="title">Sexo</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
+            <div class="form-button">
+                <button class="btn btn-danger" #btnEnviar>
+                    Cancelar
+                </button>
+    
+                <button class="btn btn-primary" #btnEnviar>
+                    Guardar
+                </button>
             </div>
-        </div>
-        <div class="content-form-item">
-            <div class="form">
-                <label class="title">Especie</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
-            </div>
-            <div class="form">
-                <label class="title">Fecha de Nacimiento</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
-            </div>
-        </div>
-        <div class="content-form-item">
-            <mat-form-field class="form">
-                <mat-label>Historial de la mascota</mat-label>
-                <textarea matInput placeholder=""></textarea>
-            </mat-form-field>
-        </div>
-        <div class="form-button">
-            <button class="btn btn-danger" #btnEnviar>
-                Cancelar
-            </button>
+    
+        </form>
+    </div>
+</ng-template>
 
-            <button class="btn btn-primary" #btnEnviar>
-                Guardar
-            </button>
-        </div>
 
-    </form>
-</div>
+
+<ng-template #formUpdate>
+    <div class="container-form">
+        <form class="content-form">
+            <h1>Formulario Usuarios</h1>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Cedula</label>
+                    <input class="form-data" type="text" >
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+                <div class="form">
+                    <label class="title">Nombre del propietario</label>
+                    <input class="form-data" type="text" >
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+            </div>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Telefono</label>
+                    <input class="form-data" type="text" >
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+                
+                    <mat-form-field class="form" >
+                        <mat-label>Dirección</mat-label>
+                        <textarea matInput placeholder=""></textarea>
+                    </mat-form-field>
+                
+            </div>
+            <div> 
+                <h1>Datos de la mascota</h1>
+            </div>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Nombre de Mascota</label>
+                    <input class="form-data" type="text" >
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+                <div class="form">
+                    <label class="title">Sexo</label>
+                    <input class="form-data" type="text" >
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+            </div>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Especie</label>
+                    <input class="form-data" type="text" >
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+                <div class="form">
+                    <label class="title">Fecha de Nacimiento</label>
+                    <input class="form-data" type="text" >
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+            </div>
+            <div class="content-form-item">
+                <mat-form-field class="form">
+                    <mat-label>Historial de la mascota</mat-label>
+                    <textarea matInput placeholder=""></textarea>
+                </mat-form-field>
+            </div>
+            <div class="form-button">
+                <button class="btn btn-danger" #btnEnviar>
+                    Cancelar
+                </button>
+    
+                <button class="btn btn-primary" #btnEnviar>
+                    Guardar
+                </button>
+            </div>
+    
+        </form>
+    </div>
+</ng-template>
+
+
+<ng-template #itemAction>
+    <div class="container-action">
+        <h1 class="title-action" >¿Qué acción desea realizar?</h1>
+        <button class="btn-action btn-primary" (click)="openDialogWithTemplate(formCreate)">Ver Información</button>
+        <button class="btn-action btn-primary" (click)="openDialogWithTemplate(formUpdate)">Actualizar Información</button>
+    </div>
+</ng-template>
 

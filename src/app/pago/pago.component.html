@@ -1,77 +1,230 @@
-<app-table [data]="myData$" [columns]="tableColumns" >
+<app-table [data]="myData$" [columns]="tableColumns" [setItemACtion]="itemAction" [buttonShowUpdate]="false">
 
 </app-table>
 
-<div class="container-form">
-    <form class="content-form">
-        <h1>Formulario Usuarios</h1>
-        <div class="content-form-item">
-            <div class="form">
-                <label class="title">Cedula</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
+
+<ng-template #formCreate>
+    <div class="container-form">
+        <form class="content-form" [formGroup]="formCreateItem">
+            <h1>Formulario de Pago</h1>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Cedula</label>
+                    <input class="form-data" type="text" formControlName="cedula" [(ngModel)]="item.cedula" readonly>
+                    <i class="fa-solid fa-id-card"></i>
+                    <div
+                        *ngIf="formGetCreateItem('cedula').invalid && (formGetCreateItem('cedula').dirty || formGetCreateItem('cedula').touched)">
+                        <div class="alert alert-danger mt-1" *ngIf="formGetCreateItem('cedula').errors?.['errors']">
+                            La cédula es requerida.
+                        </div>
+                        <div class="alert alert-danger mt-1" *ngIf="formGetCreateItem('cedula').errors?.['pattern']">
+                            La cédula debe tener el formato correcto (ej. 001-210303-1020A).
+                        </div>
+                    </div>
+                </div>
+                <div class="form">
+                    <label class="title">Nombre del propietario</label>
+                    <input class="form-data" type="text" formControlName="nombrePropietario" [(ngModel)]="item.nombre_propietario" readonly>
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('nombrePropietario').valid || (formGetCreateItem('nombrePropietario').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
             </div>
-            <div class="form">
-                <label class="title">Nombre del propietario</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Fecha de la Cita</label>
+                    <input class="form-data" type="text" formControlName="fechaCita" [(ngModel)]="item.fecha_cita" readonly>
+                    <i class="fa-solid fa-calendar-day"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('fechaCita').valid || (formGetCreateItem('fechaCita').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+
+                <div class="form">
+                    <label class="title">Hora de la Cita</label>
+                    <input class="form-data" type="text" formControlName="horaCita" [(ngModel)]="item.hora_cita" readonly>
+                    <i class="fa-solid fa-clock"></i>
+                    <div
+                        *ngIf="formGetCreateItem('horaCita').invalid && (formGetCreateItem('horaCita').dirty || formGetCreateItem('horaCita').touched)">
+                        <div class="alert alert-danger mt-1" *ngIf="formGetCreateItem('horaCita').errors?.['errors']">
+                            La cédula es requerida.
+                        </div>
+                        <div class="alert alert-danger mt-1" *ngIf="formGetCreateItem('horaCita').errors?.['pattern']">
+                            La hora debe tener el formato correcto (ej. 00:00 a 23:59).
+                        </div>
+                    </div>
+                </div>
+
             </div>
-        </div>
-        <div class="content-form-item">
-            <div class="form">
-                <label class="title">Telefono</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Tipo de Servicio</label>
+                    <input class="form-data" type="text" formControlName="tipoServicio" [(ngModel)]="item.tipo_servicio" readonly>
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('tipoServicio').valid || (formGetCreateItem('tipoServicio').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+                <mat-form-field class="form">
+                    <mat-label>Descripcion del servicio</mat-label>
+                    <textarea matInput placeholder="" formControlName="descripcionServicio" [(ngModel)]="item.descripcion_servicio" readonly></textarea>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('descripcionServicio').valid || (formGetCreateItem('descripcionServicio').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </mat-form-field>
+                <!-- <div class="form">
+                    <label class="title">Descripcion del servicio</label>
+                    <input class="form-data" type="text" formControlName="descripcionServicio">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('descripcionServicio').valid || (formGetCreateItem('descripcionServicio').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div> -->
             </div>
-            
-                <mat-form-field class="form" >
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Forma del Pago</label>
+                    <input class="form-data" type="text" formControlName="formaPago" [(ngModel)]="item.forma_pago">
+                    <i class="fa-solid fa-comments-dollar"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('formaPago').valid || (formGetCreateItem('formaPago').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+                <div class="form">
+                    <label class="title">Descuento</label>
+                    <input class="form-data" type="number" formControlName="descuento" [(ngModel)]="item.descuento" (keyup)="onInputChange($event)">
+                    <i class="fa-solid fa-percent"></i>
+                    <div
+                        *ngIf="formGetCreateItem('descuento').invalid && (formGetCreateItem('descuento').dirty || formGetCreateItem('descuento').touched)">
+                        <div class="alert alert-danger mt-1" [hidden]="formGetCreateItem('descuento').valid || (formGetCreateItem('descuento').pristine)">
+                            El descuento es requerida.
+                        </div>
+                        <div class="alert alert-danger mt-1" *ngIf="formGetCreateItem('descuento').errors?.['pattern']">
+                            El descuento debe tener el formato correcto(0 - 0.99)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Precio</label>
+                    <input class="form-data" type="text" formControlName="precio" [(ngModel)]="item.precio" readonly>
+                    <i class="fa-solid fa-money-bill-1"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('precio').valid || (formGetCreateItem('precio').pristine)" >
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+                <div class="form">
+                    <label class="title">Pago</label>
+                    <input class="form-data" type="text" formControlName="pago" [(ngModel)]="item.pago">
+                    <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('pago').valid || (formGetCreateItem('pago').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+            </div>
+            <div class="content-form-item">
+                
+            </div>
+            <div class="form-button">
+                <button class="btn btn-danger" (click)="cancelDialogResult()" #btnEnviar>
+                    Cancelar
+                </button>
+
+                <button class="btn btn-primary" #btnEnviar (click)="saveData()">
+                    Guardar
+                </button>
+            </div>
+
+        </form>
+    </div>
+</ng-template>
+
+<ng-template #formUpdate>
+    <div class="container-form">
+        <form class="content-form">
+            <h1>Formulario Usuarios</h1>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Cedula</label>
+                    <input class="form-data" type="text">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+                <div class="form">
+                    <label class="title">Nombre del propietario</label>
+                    <input class="form-data" type="text">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+            </div>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Telefono</label>
+                    <input class="form-data" type="text">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+
+                <mat-form-field class="form">
                     <mat-label>Dirección</mat-label>
                     <textarea matInput placeholder=""></textarea>
                 </mat-form-field>
-            
-        </div>
-        <div> 
-            <h1>Datos de la mascota</h1>
-        </div>
-        <div class="content-form-item">
-            <div class="form">
-                <label class="title">Nombre de Mascota</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
-            </div>
-            <div class="form">
-                <label class="title">Sexo</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
-            </div>
-        </div>
-        <div class="content-form-item">
-            <div class="form">
-                <label class="title">Especie</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
-            </div>
-            <div class="form">
-                <label class="title">Fecha de Nacimiento</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
-            </div>
-        </div>
-        <div class="content-form-item">
-            <mat-form-field class="form">
-                <mat-label>Historial de la mascota</mat-label>
-                <textarea matInput placeholder=""></textarea>
-            </mat-form-field>
-        </div>
-        <div class="form-button">
-            <button class="btn btn-danger" #btnEnviar>
-                Cancelar
-            </button>
 
-            <button class="btn btn-primary" #btnEnviar>
-                Guardar
-            </button>
-        </div>
+            </div>
+            <div>
+                <h1>Datos de la mascota</h1>
+            </div>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Nombre de Mascota</label>
+                    <input class="form-data" type="text">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+                <div class="form">
+                    <label class="title">Sexo</label>
+                    <input class="form-data" type="text">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+            </div>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Especie</label>
+                    <input class="form-data" type="text">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+                <div class="form">
+                    <label class="title">Fecha de Nacimiento</label>
+                    <input class="form-data" type="text">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+            </div>
+            <div class="form-button">
+                <button class="btn btn-danger" #btnEnviar>
+                    Cancelar
+                </button>
 
-    </form>
-</div>
+                <button class="btn btn-primary" #btnEnviar>
+                    Guardar
+                </button>
+            </div>
+
+        </form>
+    </div>
+</ng-template>
+
+
+<ng-template #itemAction>
+    <div class="container-action">
+        <h1 class="title-action">¿Qué acción desea realizar?</h1>
+        <button class="btn-action btn-primary" (click)="viewFormNull()">Ver Información</button>
+        <button class="btn-action btn-primary" (click)="openDialogWithTemplate(formCreate)">Agregar pago</button>
+    </div>
+</ng-template>

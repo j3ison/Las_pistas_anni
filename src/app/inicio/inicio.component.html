@@ -1,7 +1,7 @@
 <div class="container-inicio">
 
-    <div class="content-card-cita">
-        <div style="display: flex; flex-direction: column;">
+    <!-- <div class="content-card-cita"> -->
+    <!-- <div style="display: flex; flex-direction: column;">
             <h1 style="font-family: 'Crimson Text', serif; font-weight: 900;">Próxima cita</h1>
 
             <h2 style="margin: 2px; font-family: 'Archivo Narrow', sans-serif;">Cliente : {{citas[0].propietario}}</h2>
@@ -12,31 +12,33 @@
         <div style="display: flex; flex-direction: column;">
             <h3 style="margin: 0; font-family: 'lato', sans-serif; font-weight: 700;">Direccion:</h3>
             <span style="margin: 0; font-family: 'lato', sans-serif; font-weight: 700;">{{citas[0].ubicacion}}</span>
-        </div>
+        </div> -->
 
-    </div>
+    <!-- </div> -->
 
-    <div >
-        <h1 style="font-family: 'Crimson Text', serif; font-weight: 900; margin-left: 2rem;">Servicios más solicitados</h1>
+    <!-- <div > -->
+    <!-- <h1 style="font-family: 'Crimson Text', serif; font-weight: 900; margin-left: 2rem;">Servicios más solicitados</h1>
         <app-bar-chart [data]="ProductBarrasSelling.count" [labels]="ProductBarrasSelling.labels"
-            [title]="ProductBarrasSelling.title"></app-bar-chart>
+            [title]="ProductBarrasSelling.title"></app-bar-chart> -->
+    <!-- </div> -->
+
+    <div style="height: 100vh - 4rem; padding: 1rem;">
+        <img style="width: 500px; margin: 1.5rem 0; border-radius: 50%;
+        border: 1px solid #000; " src="../../assets/images/logo.jpg" alt="">
     </div>
 
     <div>
-        <div>
-            <full-calendar [options]="calendarOptions" class="calendary">
-                <ng-template #eventContent let-arg>
-                    <b>{{arg.timeText}}</b>
-                    <i>{{arg.event.title}}</i>
-                </ng-template>
-            </full-calendar>
-        </div>
-
+        <full-calendar [options]="calendarOptions" class="calendary">
+            <ng-template #eventContent let-arg>
+                <b>{{arg.timeText}}</b>
+                <i>{{arg.event.title}}</i>
+            </ng-template>
+        </full-calendar>
     </div>
 
-    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+    <!-- <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
         <h1 style="font-family: 'Crimson Text', serif; font-weight: 900; margin-left: 2rem;">Dias mas agendados</h1>
         <app-bar-chart [data]="ProductBarrasSelling.count" [labels]="ProductBarrasSelling.labels"
             [title]="ProductBarrasSelling.title" style="height: auto; width: calc(100%);"></app-bar-chart>
-    </div>
+    </div> -->
 </div>

@@ -1,16 +1,18 @@
 .container-inicio {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    flex-direction: column;
+    /* grid-template-columns: repeat(2, 1fr); */
     /* Dos columnas iguales */
-    grid-gap: 30px;
+    /* grid-gap: 30px; */
     justify-content: center;
     align-items: center;
 }
 
 .calendary {
-    width: auto;
-    height: 450px;
+    width: 40rem;
+    height: auto;
     padding: 0 14px;
+    margin-top: 4rem;
 }
 
 .content-card-cita{

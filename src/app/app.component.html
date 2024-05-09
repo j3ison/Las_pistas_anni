@@ -1,3 +1,5 @@
+<app-sidenav *ngIf="onNavDesative()" (onToggleSideNav)="onToggleSideNav($event)"></app-sidenav>
+
 <app-header 
 *ngIf="onHeaderDesactive()"
 [collapsed]="isSidaNavCollapsed"

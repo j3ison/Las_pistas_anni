@@ -1,4 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef } from '@angular/core';
+import { DialogComponent } from '../module/dialog/dialog.component';
+import { MatDialogRef } from '@angular/material/dialog';
+import { DialogService } from '../module/dialog/service/dialog.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { DataGlobalService } from '../module/view-data/services/data-global.service';
+import Swal from 'sweetalert2';
 
 interface Producto {
   idProducto: string;
@@ -19,93 +25,84 @@ export class ProductosComponent {
   myData$: any[] = [
     {
       idProducto: "1",
-      nombre: "Laptop HP Pavilion",
-      descripcion: "Laptop con pantalla táctil de 15.6 pulgadas, procesador Intel Core i5, 8 GB de RAM y 256 GB de almacenamiento SSD.",
-      tipoProducto: "Electrónico",
-      marca: "HP",
-      precio: "$899.99",
+      nombre: "Desparasitante",
+      descripcion: "Desparasitante mensual para perros y gatos",
+      tipoProducto: "B",
+      marca: "VetPlus",
+      precio: "150",
       cantidad: "15"
     },
     {
       idProducto: "2",
-      nombre: "Smartphone Samsung Galaxy S21",
-      descripcion: "Teléfono inteligente con pantalla Dynamic AMOLED de 6.2 pulgadas, cámara de 64 MP, procesador Exynos 2100 y 128 GB de almacenamiento.",
-      tipoProducto: "Electrónico",
-      marca: "Samsung",
-      precio: "$999.99",
+      nombre: "Alimento para perros",
+      descripcion: "Alimento balanceado para perros adultos",
+      tipoProducto: "B",
+      marca: "NutriPet",
+      precio: "300",
       cantidad: "20"
     },
     {
       idProducto: "3",
-      nombre: "Televisor Sony Bravia 4K",
-      descripcion: "Televisor LED de 65 pulgadas con resolución 4K Ultra HD, HDR, Android TV y compatibilidad con Google Assistant.",
-      tipoProducto: "Electrónico",
-      marca: "Sony",
-      precio: "$1499.99",
+      nombre: "Arena sanitaria",
+      descripcion: "Arena para gatos que absorbe olores",
+      tipoProducto: "A",
+      marca: "FreshCat",
+      precio: "50",
       cantidad: "10"
     },
     {
       idProducto: "4",
-      nombre: "Silla de Oficina Ergonómica",
-      descripcion: "Silla ajustable con soporte lumbar, reposabrazos acolchados y base giratoria de 360 grados.",
-      tipoProducto: "Mueble",
-      marca: "Herman Miller",
-      precio: "$299.99",
+      nombre: "Collar antipulgas",
+      descripcion: "Collar repelente de pulgas y garrapatas",
+      tipoProducto: "B",
+      marca: "ProtectoPet",
+      precio: "80",
       cantidad: "30"
     },
     {
       idProducto: "5",
-      nombre: "Cámara Canon EOS Rebel T7",
-      descripcion: "Cámara réflex digital con sensor CMOS de 24.1 MP, procesador DIGIC 4+ y grabación de video Full HD.",
-      tipoProducto: "Electrónico",
+      nombre: "Juguete para perros",
+      descripcion: "Pelota de goma para jugar con perros",
+      tipoProducto: "B",
       marca: "Canon",
-      precio: "$599.99",
+      precio: "599",
       cantidad: "12"
     },
     {
       idProducto: "6",
-      nombre: "Cafetera Nespresso Vertuo",
-      descripcion: "Cafetera de cápsulas con tecnología Centrifusion para preparar café, espresso, cappuccino y más.",
-      tipoProducto: "Electrodoméstico",
-      marca: "Nespresso",
-      precio: "$199.99",
+      nombre: "Camita para gatos",
+      descripcion: "Camita suave y cómoda para gatos",
+      tipoProducto: "B",
+      marca: "SensitiveGroom",
+      precio: "199",
       cantidad: "25"
     },
     {
       idProducto: "7",
-      nombre: "Set de Herramientas Bosch",
-      descripcion: "Set de herramientas eléctricas con taladro, sierra circular, linterna, baterías y estuche de transporte.",
-      tipoProducto: "Herramienta",
-      marca: "Bosch",
-      precio: "$399.99",
+      nombre: "Shampoo hipoalergénico",
+      descripcion: "Shampoo suave para pieles sensibles",
+      tipoProducto: "A",
+      marca: "SensitiveGroom",
+      precio: "399",
       cantidad: "8"
     },
     {
       idProducto: "8",
-      nombre: "Mochila North Face Recon",
-      descripcion: "Mochila resistente al agua con compartimento para laptop, correas acolchadas y múltiples bolsillos.",
-      tipoProducto: "Accesorio",
-      marca: "The North Face",
-      precio: "$129.99",
+      nombre: "Snacks para entrenamiento",
+      descripcion: "Premios pequeños para incentivar el entrenamiento",
+      tipoProducto: "B",
+      marca: "TrainTreats",
+      precio: "129",
       cantidad: "18"
     },
     {
       idProducto: "9",
-      nombre: "Monitor Curvo Samsung Odyssey G7",
-      descripcion: "Monitor de juegos curvo de 27 pulgadas con resolución QHD, frecuencia de actualización de 240 Hz y tecnología de sincronización G-Sync.",
-      tipoProducto: "Electrónico",
-      marca: "Samsung",
-      precio: "$699.99",
+      nombre: "Champú antipulgas",
+      descripcion: "Champú para eliminar pulgas y garrapatas",
+      tipoProducto: "A",
+      marca: "BioCare",
+      precio: "120",
       cantidad: "5"
-    },
-    {
-      idProducto: "10",
-      nombre: "Teclado Mecánico Corsair K95 RGB Platinum XT",
-      descripcion: "Teclado mecánico para juegos con interruptores Cherry MX Speed, retroiluminación RGB, y teclas macro programables.",
-      tipoProducto: "Periférico",
-      marca: "Corsair",
-      precio: "$179.99",
-      cantidad: "15"
     }
   ];
 
@@ -118,4 +115,164 @@ export class ProductosComponent {
     { label: 'Precio', def: 'precio', dataKey: 'precio' },
     { label: 'cantidad', def: 'cantidad', dataKey: 'cantidad' }
   ]
+
+  private matDialogRef!: MatDialogRef<DialogComponent>;
+
+  formCreateItem: FormGroup = this.formBuilder.group(
+    {
+      'idProducto': ['', [Validators.nullValidator]],
+      'nombre': ['', Validators.required],
+      'descipcion': ['', [Validators.required]],
+      'tipoProducto': ['', Validators.required],
+      'marca': ['', Validators.required],
+      'precio': ['', Validators.required],
+      'cantidad': ['', Validators.required]
+    }
+  )
+
+  formGetCreateItem(fr: string) {
+    return this.formCreateItem.get(fr) as FormControl;
+  }
+
+
+  itemUpdate: any = {}
+
+  formUpdateItem: FormGroup = this.formBuilder.group(
+    {
+      'idProducto': [this.itemUpdate.idProducto, Validators.nullValidator],
+      'nombre': [this.itemUpdate.nombre, Validators.required],
+      'descripcion': [this.itemUpdate.descripcion, Validators.required],
+      'tipoProducto': [this.itemUpdate.tipoProducto, Validators.required],
+      'marca': [this.itemUpdate.marca, Validators.required],
+      'precio': [this.itemUpdate.precio, Validators.required],
+      'cantidad': [this.itemUpdate.cantidad, Validators.required]
+    }
+  )
+
+  formGetUpdateItem(fr: string) {
+    return this.formUpdateItem.get(fr) as FormControl;
+  }
+
+
+  constructor(private dialogService: DialogService,
+    private formBuilder: FormBuilder,
+    private dataGlobalservice: DataGlobalService) { }
+
+  ngOnInit(): void {
+    this.dataGlobalservice.$itemView.subscribe(item => {
+      this.itemUpdate = item
+    })
+  }
+  openDialogWithTemplate(template: TemplateRef<any>) {
+    this.matDialogRef = this.dialogService.openDialogWithTemplate({ template });
+
+    this.matDialogRef.afterClosed().subscribe((res) => {
+    });
+  }
+
+  cancelDialogResult() {
+    this.matDialogRef.close()
+  }
+
+  viewFormNull() {
+    Swal.fire({
+      title: "Opción no habilitada",
+      html: `
+       <img src="https://cdn-icons-png.flaticon.com/512/11046/11046410.png" alt="Error" style="width: 100px; height: 100px;">
+      `,
+      showCloseButton: true,
+
+      focusConfirm: false,
+      confirmButtonText: `
+      <i class="fa-solid fa-person-digging"></i> OK!
+      `,
+      confirmButtonAriaLabel: "Thumbs up, great!",
+      imageWidth: 120,
+    });
+  }
+
+
+  saveData() {
+    Swal.fire({
+      title: "¿Estas segura?",
+      text: "¡No podrás revertir esto!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "¡Sí, Guardalo!"
+    }).then((result) => {
+
+      if (result.isConfirmed) {
+
+        const numeros = this.myData$.map(objeto => objeto.idProducto);
+        const id = Math.max(...numeros) + 1
+
+        console.log(id)
+
+        this.myData$ = [...this.myData$, {
+          idProducto: id,
+          nombre: this.formCreateItem.get('nombre')?.value,
+          descripcion: this.formCreateItem.get('descripcion')?.value,
+          tipoProducto: this.formCreateItem.get('tipoProducto')?.value,
+          marca: this.formCreateItem.get('marca')?.value,
+          precio: this.formCreateItem.get('precio')?.value,
+          cantidad: this.formCreateItem.get('cantidad')?.value
+        }]
+
+      //   idProducto: "1",
+      // nombre: "Laptop HP Pavilion",
+      // descripcion: "Laptop con pantalla táctil de 15.6 pulgadas, procesador Intel Core i5, 8 GB de RAM y 256 GB de almacenamiento SSD.",
+      // tipoProducto: "Electrónico",
+      // marca: "HP",
+      // precio: "$899.99",
+      // cantidad: "15"
+
+        this.formCreateItem.reset()
+        this.cancelDialogResult()
+
+        Swal.fire({
+          title: "¡Guardado!",
+          text: "La información ha sido guardado.",
+          icon: "success"
+        });
+      }
+    });
+  }
+
+
+  updateData(){
+
+    Swal.fire({
+      title: "¿Estas segura?",
+      text: "¡No podrás revertir esto!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "¡Sí, Actualizalo!"
+    }).then((result) => {
+
+      if (result.isConfirmed) {
+        
+        let indice = this.myData$.findIndex(objeto => objeto.idProducto === this.itemUpdate.idProducto);
+
+        console.log(indice)
+        if(indice !== -1){
+          this.myData$[indice] = {...this.itemUpdate}
+          this.myData$ = [...this.myData$]
+        }
+
+        this.cancelDialogResult()
+        
+
+        Swal.fire({
+          title: "¡Actualizado!",
+          text: "La información ha sido actualizada.",
+          icon: "success"
+        });
+      }
+    });
+
+  }
 }

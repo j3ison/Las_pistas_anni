@@ -1,78 +1,258 @@
-<app-table [data]="myData$" [columns]="tableColumns" >
-
+<app-table [data]="myData$" [columns]="tableColumns" [setItemACtion]="itemAction">
 </app-table>
 
-<div class="container-form">
-    <form class="content-form">
-        <h1>Formulario Usuarios</h1>
-        <div class="content-form-item">
-            <div class="form">
-                <label class="title">Cedula</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
+
+<ng-template #formCreate>
+
+    <div class="container-form">
+
+        <form class="content-form" *ngIf="modeChange">
+            <h1>Formulario Servicio</h1>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Tipo de Servicio</label>
+                    <input class="form-data" type="text" [(ngModel)]="item.tipoServicio"  [ngModelOptions]="{standalone: true}">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+                <div class="form">
+                    <div style=" display: flex; flex-direction: row;">
+                        <label class="title" style="margin: 0;">Precio</label>
+                        <i class="fa-solid fa-circle-exclamation" style="
+                        width: 1rem;
+                        position: relative;
+                        font-size: 1rem;
+                        line-height: 0;
+                        left: 0;
+                        top: 0;
+                        color: #4f4f4f;
+                        margin-bottom:0;
+                        padding-top: 11px !important;
+                        margin-left: 11px;"
+                        matTooltip="El precio del servicio se calcula del siguiente modo:
+                        el total del costo de los productos + 20% del total" matTooltipPosition="below"></i>
+                    </div>
+                    <input class="form-data" type="text" [(ngModel)]="item.precio"  [ngModelOptions]="{standalone: true}">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
             </div>
-            <div class="form">
-                <label class="title">Nombre del propietario</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
+
+            <div class="content-form-item">
+                <mat-form-field class="form">
+                    <mat-label>Descripción del servicio</mat-label>
+                    <textarea matInput placeholder="" [(ngModel)]="item.descripcion"  [ngModelOptions]="{standalone: true}"></textarea>
+                </mat-form-field>
             </div>
+
+            <div style="width: calc(95%); display: flex; flex-direction: row; justify-content: space-between; align-items: center;
+                margin-bottom: 1rem;">
+                <h1>Productos</h1>
+
+                <button class="btn btn-primary" #btnEnviar (click)="modeChange=false">
+                    Agregar Producto
+                </button>
+            </div>
+
+
+            <div *ngFor="let producto of itemsProductos; let i = index"
+                style="width: calc(100%); display: flex; flex-direction: column;">
+                <div class="content-form-item" *ngIf="i<1" style="margin: 0 0 15px 0; height: 1rem;">
+                    <div class="form">
+                        <label class="title">Nombre del producto</label>
+                    </div>
+                    <div class="form">
+                        <label class="title">Cantidad</label>
+                    </div>
+                    <div class="form">
+                        <label class="title">Costo </label>
+                    </div>
+                </div>
+                <div class="content-form-item">
+                    <div class="form">
+                        <input class="form-data" type="text" [(ngModel)]="itemsProductos[i].nombre"
+                            [ngModelOptions]="{standalone: true}" readonly>
+                        <i class="fa-solid fa-address-book"></i>
+                    </div>
+                    <div class="form">
+                        <input class="form-data" type="number" [(ngModel)]="itemsProductos[i].cantidad"
+                            [ngModelOptions]="{standalone: true}" (keyup)="onInputChange($event, i)">
+                        <i class="fa-solid fa-address-book"></i>
+                    </div>
+                    <div class="form">
+                        <input class="form-data" type="text" [(ngModel)]="itemsProductos[i].precio"
+                            [ngModelOptions]="{standalone: true}" readonly>
+                        <i class="fa-solid fa-address-book"></i>
+                    </div>
+                    <div class="form" style="width: 25%; margin: 0; justify-content: center; align-items: center;">
+                        <i class="fa-solid fa-square-minus"
+                        style="
+                        width: 1;
+                        height: 1;
+                        position: relative;
+                        font-size: 1.5rem;
+                        line-height: 0;
+                        left: 0;
+                        top: 0;
+                        color: #ff0000;
+                        margin-bottom:0;
+                        padding-top: 0 !important;
+                        " matTooltip="Eliminar producto"
+                        (click)="eliminarProducto(i)"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div style="width: calc(100%); display: flex; align-items: center; justify-content: center;" *ngIf="itemsProductos.length === 0">
+                <span>No hay productos registrados</span>
+            </div>
+
+            <div style="width: calc(100%); height: 2px; background: #b7b7b7; margin-top: 1rem; margin-bottom: 1rem;">
+            </div>
+
+            <div class="form-button">
+                <button class="btn btn-danger" #btnEnviar>
+                    Cancelar
+                </button>
+
+                <button class="btn btn-primary" style="width: 80px;" #btnEnviar>
+                    Guardar
+                </button>
+            </div>
+
+        </form>
+        <div class="content-form" style="padding: 0;" *ngIf="!modeChange">
+            <app-sub-tablet [data]="productoVal" [columns]="tableColumnsProducto"
+                (selectItemsCell)="obtenerProducto($event)" (cancelTable)="cancelarTabla()">
+            </app-sub-tablet>
         </div>
-        <div class="content-form-item">
-            <div class="form">
-                <label class="title">Telefono</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
+    </div>
+</ng-template>
+
+<ng-template #tabletProducto>
+    <div >
+        <app-table [data]="productoVal" [columns]="tableColumnsProducto">
+        </app-table>
+    </div>
+</ng-template>
+
+
+
+<ng-template #formUpdate>
+    <div class="container-form">
+        <form class="content-form">
+            <h1>Formulario Usuarios</h1>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Cedula</label>
+                    <input class="form-data" type="text">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+                <div class="form">
+                    <label class="title">Nombre del propietario</label>
+                    <input class="form-data" type="text">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
             </div>
-            
-                <mat-form-field class="form" >
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Telefono</label>
+                    <input class="form-data" type="text">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+
+                <mat-form-field class="form">
                     <mat-label>Dirección</mat-label>
                     <textarea matInput placeholder=""></textarea>
                 </mat-form-field>
-            
-        </div>
-        <div> 
-            <h1>Datos de la mascota</h1>
-        </div>
-        <div class="content-form-item">
-            <div class="form">
-                <label class="title">Nombre de Mascota</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
-            </div>
-            <div class="form">
-                <label class="title">Sexo</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
-            </div>
-        </div>
-        <div class="content-form-item">
-            <div class="form">
-                <label class="title">Especie</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
-            </div>
-            <div class="form">
-                <label class="title">Fecha de Nacimiento</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
-            </div>
-        </div>
-        <div class="content-form-item">
-            <mat-form-field class="form">
-                <mat-label>Historial de la mascota</mat-label>
-                <textarea matInput placeholder=""></textarea>
-            </mat-form-field>
-        </div>
-        <div class="form-button">
-            <button class="btn btn-danger" #btnEnviar>
-                Cancelar
-            </button>
 
-            <button class="btn btn-primary" #btnEnviar>
-                Guardar
-            </button>
+            </div>
+            <div>
+                <h1>Datos de la mascota</h1>
+            </div>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Nombre de Mascota</label>
+                    <input class="form-data" type="text">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+                <div class="form">
+                    <label class="title">Sexo</label>
+                    <input class="form-data" type="text">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+            </div>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Especie</label>
+                    <input class="form-data" type="text">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+                <div class="form">
+                    <label class="title">Fecha de Nacimiento</label>
+                    <input class="form-data" type="text">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+            </div>
+            <div class="content-form-item">
+                <mat-form-field class="form">
+                    <mat-label>Historial de la mascota</mat-label>
+                    <textarea matInput placeholder=""></textarea>
+                </mat-form-field>
+            </div>
+            <div class="form-button">
+                <button class="btn btn-danger" #btnEnviar>
+                    Cancelar
+                </button>
+
+                <button class="btn btn-primary" #btnEnviar>
+                    Guardar
+                </button>
+            </div>
+
+        </form>
+    </div>
+</ng-template>
+
+
+<ng-template #itemAction>
+    <div class="container-action">
+        <h1 class="title-action">¿Qué acción desea realizar?</h1>
+        <button class="btn-action btn-primary" (click)="openDialogWithTemplate(formCreate)">Ver Información</button>
+        <button class="btn-action btn-primary" (click)="openDialogWithTemplate(formUpdate)">Actualizar
+            Información</button>
+    </div>
+</ng-template>
+
+
+<!-- 
+<div class="container-card-producto">
+    <div class="content-search">
+
+    </div>
+    <div class="content-header">
+        <div class="header-id">
+            <span>ID</span>
         </div>
+        <div class="header-name">
+            <span>Nombre y Descripción</span>
+        </div>
+        <div class="header-price">
+            <span>Precio</span>
+        </div>
+    </div>
+    <div class="content-body">
+        <div class="body-id"> 
+           <img style="width: 40px;" src="../../assets/images/products.png" alt="">
+           <h1 >1</h1>
+        </div>
+        <div class="body-name">
+            <h1></h1>
+            <span></span>
+        </div>
+        <div class="body-price">
+            <h1></h1>
+        </div>
+    </div>
+    <div class="content-paginator">
 
-    </form>
-</div>
-
+    </div>
+</div>     -->

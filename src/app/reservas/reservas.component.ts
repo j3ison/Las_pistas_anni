@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
+import { DialogComponent } from '../module/dialog/dialog.component';
+import { DialogService } from '../module/dialog/service/dialog.service';
 
 interface ServicioReserva {
   idServicio: number;
@@ -202,9 +205,22 @@ export class ReservasComponent implements OnInit {
   ]
   
   
-  constructor(){}
-  
+  private matDialogRef!: MatDialogRef<DialogComponent>;
+
+  constructor(private dialogService: DialogService){}
+
   ngOnInit(): void {
+  }
+
+  openDialogWithTemplate(template: TemplateRef<any>) {
+    this.matDialogRef = this.dialogService.openDialogWithTemplate({ template });
+
+    this.matDialogRef.afterClosed().subscribe((res) => {
+    });
+  }
+
+  cancelDialogResult() {
+    this.matDialogRef.close()
   }
 
 }

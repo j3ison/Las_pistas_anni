@@ -11,6 +11,6 @@ import { CdkMenuModule } from '@angular/cdk/menu';
 @NgModule({
   declarations: [SidenavComponent,SublevelMenuComponent],
   imports: [BrowserModule,AppRoutingModule,MatTooltipModule,CdkMenuModule],
-  exports:[ SublevelMenuComponent]
+  exports:[ SublevelMenuComponent, SidenavComponent]
 })
 export class SidenavModule { }

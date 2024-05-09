@@ -30,16 +30,18 @@
 </mat-paginator>
 
 <div class="class-btn-action">
-  <button mat-fab extended class="btnUpdate" [ngClass]="btnClickItemRow?'btn-primary-disable':'btn-primary'"
-    [disabled]="btnClickItemRow" (click)="btnClickUpdate()"
+  <button mat-fab extended class="btnUpdate" [ngClass]="'btn-info'"
+    (click)="btnClickUpdate()" *ngIf="showInfo"
     style="font-family: 'lato', sans-serif; font-weight: 700; font-style: normal;">
-    <i class="fa-solid fa-pen-to-square"></i>
-    Actualizar
+
+    <i class="fa-solid fa-plus"></i>
+    Agregar
   </button>
 
   <button mat-fab extended [disabled]="btnClickItemRow" class="btnUpdate"
     [ngClass]="btnClickItemRow?'btn-danger-disable':'btn-danger'" (click)="btnClickDelete()" *ngIf="showDelete"
     style="font-family: 'lato', sans-serif; font-weight: 700; font-style: normal;">
+
     <i class="fa-solid fa-trash-can"></i>
     Eliminar
   </button>
@@ -50,8 +52,9 @@
     </button> -->
 
   <button mat-fab extended [disabled]="btnClickItemRow" class="btnUpdate"
-    [ngClass]="btnClickItemRow?'btn-info-disable':'btn-info'" (click)="btnClickInfo()" *ngIf="showInfo"
+    [ngClass]="btnClickItemRow?'btn-info-disable':'btn-info'" (click)="btnClickInfo()" *ngIf="false"
     style="font-family: 'lato', sans-serif; font-weight: 700; font-style: normal;">
+    
     <i class="fa-solid fa-info"></i>
     Informacion
   </button>

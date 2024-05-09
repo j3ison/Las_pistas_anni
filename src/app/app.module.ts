@@ -40,6 +40,11 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { PagoComponent } from './pago/pago.component';
+import { DialogModule } from './module/dialog/dialog.module';
+
+import { SubTabletComponent } from './module/sub-tablet/sub-tablet.component';
+import { FormsModule } from '@angular/forms';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -56,7 +61,8 @@ import { PagoComponent } from './pago/pago.component';
     DoughnutChartComponent,
     PieChartComponent,
     PolarAreaChartComponent,
-    PagoComponent
+    PagoComponent,
+    SubTabletComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +86,10 @@ import { PagoComponent } from './pago/pago.component';
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
-    FullCalendarModule
+    FullCalendarModule,
+    DialogModule,
+    FormsModule,
+    MatTooltipModule
     
   ],
   

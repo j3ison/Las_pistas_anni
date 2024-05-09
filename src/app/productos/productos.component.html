@@ -1,77 +1,172 @@
-<app-table [data]="myData$" [columns]="tableColumns" >
-
+<app-table [data]="myData$" [columns]="tableColumns" [setItemACtion]="itemAction" [setItemCreation]="formCreate">
 </app-table>
 
-<div class="container-form">
-    <form class="content-form">
-        <h1>Formulario Usuarios</h1>
-        <div class="content-form-item">
-            <div class="form">
-                <label class="title">Cedula</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
+
+
+<ng-template #formCreate>
+    <div class="container-form">
+        <form class="content-form" [formGroup]="formCreateItem">
+            <h1>Formulario Producto</h1>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Nombre del Producto</label>
+                    <input class="form-data" type="text" formControlName="nombre">
+                    <i class="fa-solid fa-id-card"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('nombre').valid || (formGetCreateItem('nombre').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+                <div class="form">
+                    <label class="title">Descripción del producto</label>
+                    <input class="form-data" type="text" formControlName="descipcion">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('descipcion').valid || (formGetCreateItem('descipcion').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
             </div>
-            <div class="form">
-                <label class="title">Nombre del propietario</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
-            </div>
-        </div>
-        <div class="content-form-item">
-            <div class="form">
-                <label class="title">Telefono</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
-            </div>
-            
-                <mat-form-field class="form" >
-                    <mat-label>Dirección</mat-label>
-                    <textarea matInput placeholder=""></textarea>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Tipo de producto</label>
+                    <input class="form-data" type="text" formControlName="tipoProducto">
+                    <i class="fa-solid fa-mobile"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('tipoProducto').valid || (formGetCreateItem('tipoProducto').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+
+                <mat-form-field class="form">
+                    <mat-label>Marca del producto</mat-label>
+                    <textarea matInput placeholder="" formControlName="marca"></textarea>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('marca').valid || (formGetCreateItem('marca').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
                 </mat-form-field>
-            
-        </div>
-        <div> 
-            <h1>Datos de la mascota</h1>
-        </div>
-        <div class="content-form-item">
-            <div class="form">
-                <label class="title">Nombre de Mascota</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
             </div>
-            <div class="form">
-                <label class="title">Sexo</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Costo del producto</label>
+                    <input class="form-data" type="number" formControlName="precio">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('precio').valid || (formGetCreateItem('precio').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+                <div class="form">
+                    <label class="title">Existencias del producto</label>
+                    <input class="form-data" type="number" formControlName="cantidad">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('cantidad').valid || (formGetCreateItem('cantidad').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="content-form-item">
-            <div class="form">
-                <label class="title">Especie</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
-            </div>
-            <div class="form">
-                <label class="title">Fecha de Nacimiento</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
-            </div>
-        </div>
-        <div class="content-form-item">
-            <mat-form-field class="form">
-                <mat-label>Historial de la mascota</mat-label>
-                <textarea matInput placeholder=""></textarea>
-            </mat-form-field>
-        </div>
-        <div class="form-button">
-            <button class="btn btn-danger" #btnEnviar>
-                Cancelar
-            </button>
+            <div class="form-button">
+                <button class="btn btn-danger" (click)="cancelDialogResult()" #btnEnviar>
+                    Cancelar
+                </button>
 
-            <button class="btn btn-primary" #btnEnviar>
-                Guardar
-            </button>
-        </div>
+                <button class="btn btn-primary" #btnEnviar (click)="saveData()">
+                    Guardar
+                </button>
+            </div>
 
-    </form>
-</div>
+        </form>
+    </div>
+</ng-template>
+
+
+
+<ng-template #formUpdate>
+    <div class="container-form">
+        <form class="content-form" [formGroup]="formUpdateItem">
+            <h1>Formulario Producto</h1>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Nombre del Producto</label>
+                    <input class="form-data" type="text" formControlName="nombre" [(ngModel)]="itemUpdate.nombre">
+                    <i class="fa-solid fa-id-card"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetUpdateItem('nombre').valid || (formGetUpdateItem('nombre').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+                <div class="form">
+                    <label class="title">Marca del producto</label>
+                    <input class="form-data" type="text" formControlName="marca" [(ngModel)]="itemUpdate.marca">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetUpdateItem('marca').valid || (formGetUpdateItem('marca').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+            </div>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Tipo de producto</label>
+                    <input class="form-data" type="text" formControlName="tipoProducto" [(ngModel)]="itemUpdate.tipoProducto">
+                    <i class="fa-solid fa-mobile"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetUpdateItem('tipoProducto').valid || (formGetUpdateItem('tipoProducto').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+
+                <mat-form-field class="form">
+                    <mat-label>Descripción del producto</mat-label>
+                    <textarea matInput placeholder="" formControlName="descripcion" [(ngModel)]="itemUpdate.descripcion"></textarea>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetUpdateItem('descripcion').valid || (formGetUpdateItem('descripcion').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </mat-form-field>
+            </div>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Costo del producto</label>
+                    <input class="form-data" type="number" formControlName="precio" [(ngModel)]="itemUpdate.precio">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetUpdateItem('precio').valid || (formGetUpdateItem('precio').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+                <div class="form">
+                    <label class="title">Existencias del producto</label>
+                    <input class="form-data" type="number" formControlName="cantidad" [(ngModel)]="itemUpdate.cantidad">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetUpdateItem('cantidad').valid || (formGetUpdateItem('cantidad').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+            </div>
+            <div class="form-button">
+                <button class="btn btn-danger" (click)="cancelDialogResult()" #btnEnviar>
+                    Cancelar
+                </button>
+
+                <button class="btn btn-primary" #btnEnviar (click)="updateData()">
+                    Guardar
+                </button>
+            </div>
+
+        </form>
+    </div>
+</ng-template>
+
+
+<ng-template #itemAction>
+    <div class="container-action">
+        <h1 class="title-action" >¿Qué acción desea realizar?</h1>
+        <button class="btn-action btn-primary" (click)="viewFormNull()">Ver Información</button>
+        <button class="btn-action btn-primary" (click)="openDialogWithTemplate(formUpdate)">Actualizar Información</button>
+    </div>
+</ng-template>
+

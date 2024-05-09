@@ -2,7 +2,7 @@
     width: calc(100%);
     height: calc(100%);
     display: flex;
-    flex-direction: row;
+    flex-direction: row-reverse;
     justify-content: center;
     align-items: center;
     padding: 0;
@@ -20,10 +20,11 @@
 
     .container-right {
         height: calc(100%);
-        background-image: url('../../assets/images/logo-bg4.jpeg');
+        background-image: url('../../assets/images/fondo-montaña.jpg');
         background-size: cover;
         background-repeat: repeat;
-        border-radius: 80px 0 0 80px;
+        border-radius:  0 50px 50px 0;
+        border: 1px solid #000;
         display: flex;
         flex-direction: column;
     }
@@ -205,4 +206,17 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+
+::ng-deep .mat-mdc-input-element 
+::ng-deep .ng-tns-c1205077789-1 
+::ng-deep .mat-mdc-form-field-input-control 
+::ng-deep .mdc-text-field__input 
+::ng-deep .cdk-text-field-autofill-monitored 
+::ng-deep .cdk-text-field-autofilled 
+::ng-deep .ng-dirty 
+::ng-deep .ng-valid 
+::ng-deep .ng-touched {
+    background: transparent !important;
 }

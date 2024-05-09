@@ -1,77 +1,275 @@
-<app-table [data]="myData$" [columns]="tableColumns" >
-
+<app-table [data]="myData$" [columns]="tableColumns" [setItemACtion]="itemAction" [setItemCreation]="formCreate">
 </app-table>
 
-<div class="container-form">
-    <form class="content-form">
-        <h1>Formulario Usuarios</h1>
-        <div class="content-form-item">
-            <div class="form">
-                <label class="title">Cedula</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
+
+<ng-template #formUpdate>
+    <div class="container-form">
+        <form class="content-form" [formGroup]="formUpdateItem">
+            <h1>Formulario Usuarios</h1>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Cedula</label>
+                    <input class="form-data" type="text" formControlName="cedula" [(ngModel)]="itemUpdate.cedula">
+                    <i class="fa-solid fa-id-card"></i>
+                    <div
+                        *ngIf="formGetUpdateItem('cedula').invalid && (formGetUpdateItem('cedula').dirty || formGetUpdateItem('cedula').touched)">
+                        <div class="alert alert-danger mt-1" *ngIf="formGetUpdateItem('cedula').errors?.['errors']">
+                            La cédula es requerida.
+                        </div>
+                        <div class="alert alert-danger mt-1" *ngIf="formGetUpdateItem('cedula').errors?.['pattern']">
+                            La cédula debe tener el formato correcto (ej. 001-210303-1020A).
+                        </div>
+                    </div>
+                </div>
+                <div class="form">
+                    <label class="title">Nombre del propietario</label>
+                    <input class="form-data" type="text" formControlName="nombrePropietario"
+                        [(ngModel)]="itemUpdate.nombre_propietario">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetUpdateItem('nombrePropietario').valid || (formGetUpdateItem('nombrePropietario').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
             </div>
-            <div class="form">
-                <label class="title">Nombre del propietario</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
-            </div>
-        </div>
-        <div class="content-form-item">
-            <div class="form">
-                <label class="title">Telefono</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
-            </div>
-            
-                <mat-form-field class="form" >
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Telefono</label>
+                    <input class="form-data" type="text" formControlName="telefono" [(ngModel)]="itemUpdate.telefono">
+                    <i class="fa-solid fa-address-book"></i>
+                    <div
+                        *ngIf="formGetUpdateItem('telefono').invalid && (formGetUpdateItem('telefono').dirty || formGetUpdateItem('telefono').touched)">
+                        <div class="alert alert-danger mt-1" *ngIf="formGetUpdateItem('telefono').errors?.['errors']">
+                            La telefono es requerida.
+                        </div>
+                        <div class="alert alert-danger mt-1" *ngIf="formGetUpdateItem('telefono').errors?.['pattern']">
+                            La telefono debe tener el formato correcto (ej. 77886655).
+                        </div>
+                    </div>
+                </div>
+
+                <mat-form-field class="form">
                     <mat-label>Dirección</mat-label>
-                    <textarea matInput placeholder=""></textarea>
+                    <textarea matInput placeholder="" formControlName="direccion"
+                        [(ngModel)]="itemUpdate.direccion"></textarea>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetUpdateItem('direccion').valid || (formGetUpdateItem('direccion').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
                 </mat-form-field>
-            
-        </div>
-        <div> 
-            <h1>Datos de la mascota</h1>
-        </div>
-        <div class="content-form-item">
-            <div class="form">
-                <label class="title">Nombre de Mascota</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
-            </div>
-            <div class="form">
-                <label class="title">Sexo</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
-            </div>
-        </div>
-        <div class="content-form-item">
-            <div class="form">
-                <label class="title">Especie</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
-            </div>
-            <div class="form">
-                <label class="title">Fecha de Nacimiento</label>
-                <input class="form-data" type="text" >
-                <i class="fa-solid fa-address-book"></i>
-            </div>
-        </div>
-        <div class="content-form-item">
-            <mat-form-field class="form">
-                <mat-label>Historial de la mascota</mat-label>
-                <textarea matInput placeholder=""></textarea>
-            </mat-form-field>
-        </div>
-        <div class="form-button">
-            <button class="btn btn-danger" #btnEnviar>
-                Cancelar
-            </button>
 
-            <button class="btn btn-primary" #btnEnviar>
-                Guardar
-            </button>
-        </div>
 
-    </form>
-</div>
+            </div>
+            <div>
+                <h1>Datos de la mascota</h1>
+            </div>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Nombre de Mascota</label>
+                    <input class="form-data" type="text" formControlName="nombreMascota"
+                        [(ngModel)]="itemUpdate.nombre_mascota">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetUpdateItem('nombreMascota').valid || (formGetUpdateItem('nombreMascota').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+
+                </div>
+                <div class="form">
+                    <label class="title">Sexo</label>
+                    <input class="form-data" type="text" formControlName="sexo" [(ngModel)]="itemUpdate.sexo">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetUpdateItem('sexo').valid || (formGetUpdateItem('sexo').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Especie</label>
+                    <input class="form-data" type="text" formControlName="especie" [(ngModel)]="itemUpdate.especie">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetUpdateItem('especie').valid || (formGetUpdateItem('especie').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+
+                </div>
+                <div class="form">
+                    <label class="title">Fecha de Nacimiento</label>
+                    <input class="form-data" type="text" formControlName="fechaNacimiento"
+                        [(ngModel)]="itemUpdate.fecha_nacimiento">
+                    <i class="fa-solid fa-cake-candles"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetUpdateItem('fechaNacimiento').valid || (formGetUpdateItem('fechaNacimiento').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+            </div>
+            <div class="content-form-item">
+                <mat-form-field class="form">
+                    <mat-label>Historial de la mascota</mat-label>
+                    <textarea matInput placeholder="" formControlName="historial"
+                        [(ngModel)]="itemUpdate.historial"></textarea>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetUpdateItem('historial').valid || (formGetUpdateItem('historial').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </mat-form-field>
+            </div>
+            <div class="form-button">
+                <button class="btn btn-danger" style="width: 150px;" (click)="cancelDialogResult()" #btnEnviar>
+                    Cancelar
+                </button>
+
+                <button class="btn btn-primary" style="width: 150px;" (click)="updateData()" #btnEnviar>
+                    Actualizar
+                </button>
+            </div>
+
+        </form>
+    </div>
+</ng-template>
+
+
+
+<ng-template #formCreate>
+    <div class="container-form">
+        <form class="content-form" [formGroup]="formCreateItem">
+            <h1>Formulario Usuarios</h1>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Cedula</label>
+                    <input class="form-data" type="text" formControlName="cedula">
+                    <i class="fa-solid fa-id-card"></i>
+                    <div
+                        *ngIf="formGetCreateItem('cedula').invalid && (formGetCreateItem('cedula').dirty || formGetCreateItem('cedula').touched)">
+                        <div class="alert alert-danger mt-1" *ngIf="formGetCreateItem('cedula').errors?.['errors']">
+                            La cédula es requerida.
+                        </div>
+                        <div class="alert alert-danger mt-1" *ngIf="formGetCreateItem('cedula').errors?.['pattern']">
+                            La cédula debe tener el formato correcto (ej. 001-210303-1020A).
+                        </div>
+                    </div>
+                </div>
+                <div class="form">
+                    <label class="title">Nombre del propietario</label>
+                    <input class="form-data" type="text" formControlName="nombrePropietario">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('nombrePropietario').valid || (formGetCreateItem('nombrePropietario').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+            </div>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Telefono</label>
+                    <input class="form-data" type="text" formControlName="telefono">
+                    <i class="fa-solid fa-mobile"></i>
+                    <div
+                        *ngIf="formGetCreateItem('telefono').invalid && (formGetCreateItem('telefono').dirty || formGetCreateItem('telefono').touched)">
+                        <div class="alert alert-danger mt-1" *ngIf="formGetCreateItem('telefono').errors?.['errors']">
+                            La telefono es requerida.
+                        </div>
+                        <div class="alert alert-danger mt-1" *ngIf="formGetCreateItem('telefono').errors?.['pattern']">
+                            La telefono debe tener el formato correcto (ej. 77886655).
+                        </div>
+                    </div>
+                </div>
+
+                <mat-form-field class="form">
+                    <mat-label>Dirección</mat-label>
+                    <textarea matInput placeholder="" formControlName="direccion"></textarea>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('direccion').valid || (formGetCreateItem('direccion').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </mat-form-field>
+
+            </div>
+            <div>
+                <h1>Datos de la mascota</h1>
+            </div>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Nombre de Mascota</label>
+                    <input class="form-data" type="text" formControlName="nombreMascota">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('nombreMascota').valid || (formGetCreateItem('nombreMascota').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+                <div class="form">
+                    <label class="title">Sexo</label>
+                    <input class="form-data" type="text" formControlName="sexo">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('sexo').valid || (formGetCreateItem('sexo').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+            </div>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Especie</label>
+                    <input class="form-data" type="text" formControlName="especie">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('especie').valid || (formGetCreateItem('especie').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+                <div class="form">
+                    <label class="title">Fecha de Nacimiento</label>
+                    <input class="form-data" type="text" formControlName="fechaNacimiento">
+                    <i class="fa-solid fa-cake-candles"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('fechaNacimiento').valid || (formGetCreateItem('fechaNacimiento').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+            </div>
+            <div class="content-form-item">
+                <mat-form-field class="form">
+                    <mat-label>Historial de la mascota</mat-label>
+                    <textarea matInput placeholder="" formControlName="historial"></textarea>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('historial').valid || (formGetCreateItem('historial').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </mat-form-field>
+            </div>
+            <div class="form-button">
+                <button class="btn btn-danger" style="width: 150px;" (click)="cancelDialogResult()" #btnEnviar>
+                    Cancelar
+                </button>
+
+                <button class="btn btn-primary" style="width: 150px;" (click)="saveData()" #btnEnviar >
+                    Guardar
+                </button>
+            </div>
+
+        </form>
+    </div>
+</ng-template>
+
+
+
+<ng-template #info>
+    <div>
+        {{ viewFormNull() }}
+    </div>
+</ng-template>
+
+<ng-template #itemAction>
+    <div class="container-action">
+        <h1 class="title-action">¿Qué acción desea realizar?</h1>
+        <button class="btn-action btn-primary" (click)="viewFormNull()">Ver Información</button>
+        <button class="btn-action btn-primary" (click)="openDialogWithTemplate(formUpdate)">Actualizar Información</button>
+    </div>
+</ng-template>
