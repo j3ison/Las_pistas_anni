@@ -9,7 +9,9 @@
             <div class="content-form-item">
                 <div class="form">
                     <label class="title">Cedula</label>
-                    <input class="form-data" type="text" formControlName="cedula" [(ngModel)]="itemUpdate.cedula">
+                    <input class="form-data" type="text" formControlName="cedula" 
+                    >
+                    <!-- [(ngModel)]="itemUpdate.cedula" -->
                     <i class="fa-solid fa-id-card"></i>
                     <div
                         *ngIf="formGetUpdateItem('cedula').invalid && (formGetUpdateItem('cedula').dirty || formGetUpdateItem('cedula').touched)">
@@ -24,7 +26,8 @@
                 <div class="form">
                     <label class="title">Nombre del propietario</label>
                     <input class="form-data" type="text" formControlName="nombrePropietario"
-                        [(ngModel)]="itemUpdate.nombre_propietario">
+                    >
+                    <!-- [(ngModel)]="itemUpdate.nombre_propietario" -->
                     <i class="fa-solid fa-pen-to-square"></i>
                     <div class="alert alert-danger mt-1"
                         [hidden]="formGetUpdateItem('nombrePropietario').valid || (formGetUpdateItem('nombrePropietario').pristine)">
@@ -35,7 +38,9 @@
             <div class="content-form-item">
                 <div class="form">
                     <label class="title">Telefono</label>
-                    <input class="form-data" type="text" formControlName="telefono" [(ngModel)]="itemUpdate.telefono">
+                    <input class="form-data" type="text" formControlName="telefono" 
+                    >
+                    <!-- [(ngModel)]="itemUpdate.telefono" -->
                     <i class="fa-solid fa-address-book"></i>
                     <div
                         *ngIf="formGetUpdateItem('telefono').invalid && (formGetUpdateItem('telefono').dirty || formGetUpdateItem('telefono').touched)">
@@ -51,7 +56,8 @@
                 <mat-form-field class="form">
                     <mat-label>Dirección</mat-label>
                     <textarea matInput placeholder="" formControlName="direccion"
-                        [(ngModel)]="itemUpdate.direccion"></textarea>
+                    ></textarea>
+                    <!-- [(ngModel)]="itemUpdate.direccion" -->
                     <div class="alert alert-danger mt-1"
                         [hidden]="formGetUpdateItem('direccion').valid || (formGetUpdateItem('direccion').pristine)">
                         El campo no puede estar Vacio.
@@ -67,7 +73,8 @@
                 <div class="form">
                     <label class="title">Nombre de Mascota</label>
                     <input class="form-data" type="text" formControlName="nombreMascota"
-                        [(ngModel)]="itemUpdate.nombre_mascota">
+                    >
+                    <!-- [(ngModel)]="itemUpdate.nombre_mascota" -->
                     <i class="fa-solid fa-pen-to-square"></i>
                     <div class="alert alert-danger mt-1"
                         [hidden]="formGetUpdateItem('nombreMascota').valid || (formGetUpdateItem('nombreMascota').pristine)">
@@ -77,7 +84,9 @@
                 </div>
                 <div class="form">
                     <label class="title">Sexo</label>
-                    <input class="form-data" type="text" formControlName="sexo" [(ngModel)]="itemUpdate.sexo">
+                    <input class="form-data" type="text" formControlName="sexo" 
+                    >
+                    <!-- [(ngModel)]="itemUpdate.sexo" -->
                     <i class="fa-solid fa-pen-to-square"></i>
                     <div class="alert alert-danger mt-1"
                         [hidden]="formGetUpdateItem('sexo').valid || (formGetUpdateItem('sexo').pristine)">
@@ -90,7 +99,9 @@
             <div class="content-form-item">
                 <div class="form">
                     <label class="title">Especie</label>
-                    <input class="form-data" type="text" formControlName="especie" [(ngModel)]="itemUpdate.especie">
+                    <input class="form-data" type="text" formControlName="especie" 
+                    >
+                    <!-- [(ngModel)]="itemUpdate.especie" -->
                     <i class="fa-solid fa-pen-to-square"></i>
                     <div class="alert alert-danger mt-1"
                         [hidden]="formGetUpdateItem('especie').valid || (formGetUpdateItem('especie').pristine)">
@@ -101,7 +112,8 @@
                 <div class="form">
                     <label class="title">Fecha de Nacimiento</label>
                     <input class="form-data" type="text" formControlName="fechaNacimiento"
-                        [(ngModel)]="itemUpdate.fecha_nacimiento">
+                    >
+                    <!-- [(ngModel)]="itemUpdate.fecha_nacimiento" -->
                     <i class="fa-solid fa-cake-candles"></i>
                     <div class="alert alert-danger mt-1"
                         [hidden]="formGetUpdateItem('fechaNacimiento').valid || (formGetUpdateItem('fechaNacimiento').pristine)">
@@ -110,15 +122,24 @@
                 </div>
             </div>
             <div class="content-form-item">
-                <mat-form-field class="form">
-                    <mat-label>Historial de la mascota</mat-label>
-                    <textarea matInput placeholder="" formControlName="historial"
-                        [(ngModel)]="itemUpdate.historial"></textarea>
+                <div class="form">
+                    <label class="title">Raza</label>
+                    <input class="form-data" type="text" formControlName="raza">
+                    <i class="fa-solid fa-pen-to-square"></i>
                     <div class="alert alert-danger mt-1"
-                        [hidden]="formGetUpdateItem('historial').valid || (formGetUpdateItem('historial').pristine)">
+                        [hidden]="formGetCreateItem('raza').valid || (formGetCreateItem('raza').pristine)">
                         El campo no puede estar Vacio.
                     </div>
-                </mat-form-field>
+                </div>
+                <div class="form">
+                    <!-- <label class="title">Fecha de Nacimiento</label>
+                    <input class="form-data" type="text" formControlName="fechaNacimiento">
+                    <i class="fa-solid fa-cake-candles"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('fechaNacimiento').valid || (formGetCreateItem('fechaNacimiento').pristine)">
+                        El campo no puede estar Vacio.
+                    </div> -->
+                </div>
             </div>
             <div class="form-button">
                 <button class="btn btn-danger" style="width: 150px;" (click)="cancelDialogResult()" #btnEnviar>
@@ -234,7 +255,28 @@
                     </div>
                 </div>
             </div>
+
             <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Raza</label>
+                    <input class="form-data" type="text" formControlName="raza">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('raza').valid || (formGetCreateItem('raza').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+                <div class="form">
+                    <!-- <label class="title">Fecha de Nacimiento</label>
+                    <input class="form-data" type="text" formControlName="fechaNacimiento">
+                    <i class="fa-solid fa-cake-candles"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('fechaNacimiento').valid || (formGetCreateItem('fechaNacimiento').pristine)">
+                        El campo no puede estar Vacio.
+                    </div> -->
+                </div>
+            </div>
+            <!-- <div class="content-form-item">
                 <mat-form-field class="form">
                     <mat-label>Historial de la mascota</mat-label>
                     <textarea matInput placeholder="" formControlName="historial"></textarea>
@@ -243,7 +285,7 @@
                         El campo no puede estar Vacio.
                     </div>
                 </mat-form-field>
-            </div>
+            </div> -->
             <div class="form-button">
                 <button class="btn btn-danger" style="width: 150px;" (click)="cancelDialogResult()" #btnEnviar>
                     Cancelar
@@ -260,16 +302,65 @@
 
 
 
-<ng-template #info>
+<!-- <ng-template #info>
     <div>
         {{ viewFormNull() }}
     </div>
-</ng-template>
+</ng-template> -->
 
 <ng-template #itemAction>
     <div class="container-action">
         <h1 class="title-action">¿Qué acción desea realizar?</h1>
-        <button class="btn-action btn-primary" (click)="viewFormNull()">Ver Información</button>
+        <button class="btn-action btn-primary" (click)="openDialogWithTemplate(info)">Ver Información</button>
         <button class="btn-action btn-primary" (click)="openDialogWithTemplate(formUpdate)">Actualizar Información</button>
+    </div>
+</ng-template>
+
+
+
+<ng-template #info>
+    <div class="container-info" >
+        <div class="content-left">
+            <h1  class="content-left-title">Información de la mascota</h1>
+        </div>
+    
+        <div class="content-right">
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Cedula</strong></h2>
+                <span class="content-right-content-text">{{itemUpdate.Cedula}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Nombre del Propietario</strong></h2>
+                <span class="content-right-content-text">{{itemUpdate.Nombre_Propietario}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Telefono</strong></h2>
+                <span class="content-right-content-text">{{itemUpdate.Telefono}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Dirección</strong></h2>
+                <span class="content-right-content-text">{{itemUpdate.Direccion}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>ID Mascotas</strong></h2>
+                <span class="content-right-content-text">{{itemUpdate.ID_Mascota}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Nombre de la Mascota</strong></h2>
+                <span class="content-right-content-text">{{itemUpdate.Nombre_Mascota}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Fecha de nacimiento</strong></h2>
+                <span class="content-right-content-text">{{itemUpdate.Fecha_Nacimiento}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Especie</strong></h2>
+                <span class="content-right-content-text">{{itemUpdate.Especie}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Sexo</strong></h2>
+                <span class="content-right-content-text">{{itemUpdate.Sexo}}</span>
+            </div>
+        </div>
     </div>
 </ng-template>

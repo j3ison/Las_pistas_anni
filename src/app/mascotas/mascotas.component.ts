@@ -6,6 +6,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { DataGlobalService } from '../module/view-data/services/data-global.service';
 import { renderChunkContent } from '@fullcalendar/core/internal';
 import Swal from 'sweetalert2';
+import { ApiDataService } from '../api/api-data.service';
 
 
 
@@ -164,16 +165,16 @@ export class MascotasComponent implements OnInit {
   ];
 
   tableColumns = [
-    { label: 'Cedula', def: 'Cedula', dataKey: 'cedula' },
-    { label: 'Nombre', def: 'Nombre', dataKey: 'nombre_propietario' },
-    { label: 'Telefono', def: 'Telefono', dataKey: 'telefono' },
-    { label: 'Dirección', def: 'Direccion', dataKey: 'direccion' },
-    { label: 'ID Mascota', def: 'idMascota', dataKey: 'idMascota' },
-    { label: 'Nombre Mascota', def: 'NombreMascota', dataKey: 'nombre_mascota' },
-    { label: 'Fecha Nacimiento', def: 'fecha_nacimiento', dataKey: 'fecha_nacimiento' },
-    { label: 'Especie', def: 'especie', dataKey: 'especie' },
-    { label: 'Sexo', def: 'sexo', dataKey: 'sexo' },
-    { label: 'Historial', def: 'historial', dataKey: 'historial' },
+    { label: 'Cedula', def: 'Cedula', dataKey: 'Cedula' },
+    { label: 'Nombre', def: 'Nombre', dataKey: 'Nombre_Propietario' },
+    { label: 'Telefono', def: 'Telefono', dataKey: 'Telefono' },
+    { label: 'Dirección', def: 'Direccion', dataKey: 'Direccion' },
+    { label: 'ID Mascota', def: 'idMascota', dataKey: 'ID_Mascota' },
+    { label: 'Nombre Mascota', def: 'NombreMascota', dataKey: 'Nombre_Mascota' },
+    { label: 'Fecha Nacimiento', def: 'fecha_nacimiento', dataKey: 'Fecha_Nacimiento' },
+    { label: 'Especie', def: 'especie', dataKey: 'Especie' },
+    { label: 'Sexo', def: 'sexo', dataKey: 'Sexo' },
+    // { label: 'Historial', def: 'historial', dataKey: 'historial' },
   ]
 
   private matDialogRef!: MatDialogRef<DialogComponent>;
@@ -188,8 +189,9 @@ export class MascotasComponent implements OnInit {
       'nombreMascota': ['', Validators.required],
       'sexo': ['', Validators.required],
       'especie': ['', Validators.required],
+      'raza': ['', Validators.required],
       'fechaNacimiento': ['', Validators.nullValidator],
-      'historial': ['', Validators.nullValidator]
+      // 'historial': ['', Validators.nullValidator]
     }
   )
 
@@ -201,15 +203,15 @@ export class MascotasComponent implements OnInit {
 
   formUpdateItem: FormGroup = this.formBuilder.group(
     {
-      'cedula': [this.itemUpdate.cedula, [Validators.required, Validators.pattern('^[0-9]{3}-[0-9]{6}-[0-9]{4}[A-Z]$')]],
-      'nombrePropietario': [this.itemUpdate.nombre_propietario, Validators.required],
-      'telefono': [this.itemUpdate.telefono, [Validators.required, Validators.pattern('^[5|7-9][0-9]{7}$')]],
-      'direccion': [this.itemUpdate.direccion, Validators.required],
-      'nombreMascota': [this.itemUpdate.nombre_mascota, Validators.required],
-      'sexo': [this.itemUpdate.sexo, Validators.required],
-      'especie': [this.itemUpdate.especie, Validators.required],
-      'fechaNacimiento': [this.itemUpdate.fecha_nacimiento, Validators.required],
-      'historial': [this.itemUpdate.historial, Validators.required]
+      'cedula': [this.itemUpdate.Cedula, [Validators.required, Validators.pattern('^[0-9]{3}-[0-9]{6}-[0-9]{4}[A-Z]$')]],
+      'nombrePropietario': [this.itemUpdate.Nombre_Propietario, Validators.required],
+      'telefono': [this.itemUpdate.Telefono, [Validators.required, Validators.pattern('^[5|7-9][0-9]{7}$')]],
+      'direccion': [this.itemUpdate.Direccion, Validators.required],
+      'nombreMascota': [this.itemUpdate.Nombre_Mascota, Validators.required],
+      'sexo': [this.itemUpdate.Sexo, Validators.required],
+      'especie': [this.itemUpdate.Especie, Validators.required],
+      'fechaNacimiento': [this.itemUpdate.Fecha_Nacimiento, Validators.required],
+      'raza': [this.itemUpdate.Raza, Validators.required]
     }
   )
 
@@ -217,46 +219,41 @@ export class MascotasComponent implements OnInit {
     return this.formUpdateItem.get(fr) as FormControl;
   }
 
-
-
-  // validaciones
-  // validarCedula() {
-  //   return (control: { value: any; }) => {
-  //     const cedulaRegex = /^[0-9]{8}[A-Z]$/;
-  //     const valor = control.value;
-  //     if (!valor) {
-  //       return null;
-  //     }
-  //     if (!cedulaRegex.test(valor)) {
-  //       return { invalidCedula: true };
-  //     }
-  //     return null;
-  //   };
-  // }
-
-  // validarTelefono() {
-  //   return (control: { value: any }) => {
-  //     const telefonoRegex = /^[5|7-9][0-9]{7}$/;
-  //     const valor = control.value;
-  //     if (!valor) {
-  //       return null;
-  //     }
-  //     if (!telefonoRegex.test(valor)) {
-  //       return { invalidCedula: true };
-  //     }
-  //     return null;
-  //   }
-  // }
-
-  //---------------------------Fin de validaciones----------------------------
-
   constructor(private dialogService: DialogService,
     private formBuilder: FormBuilder,
-    private dataGlobalservice: DataGlobalService) { }
+    private dataGlobalservice: DataGlobalService,
+    private apiService: ApiDataService) { }
 
   ngOnInit(): void {
     this.dataGlobalservice.$itemView.subscribe(item => {
       this.itemUpdate = item
+
+
+      if (item){
+        console.log(this.itemUpdate)
+        this.formUpdateItem.patchValue({
+          'cedula': this.itemUpdate.Cedula,
+          'nombrePropietario': this.itemUpdate.Nombre_Propietario,
+          'telefono': this.itemUpdate.Telefono,
+          'direccion': this.itemUpdate.Direccion,
+          'nombreMascota': this.itemUpdate.Nombre_Mascota,
+          'sexo': this.itemUpdate.Sexo,
+          'especie': this.itemUpdate.Especie,
+          'fechaNacimiento': this.itemUpdate.Fecha_Nacimiento,
+          'raza': this.itemUpdate.Raza
+        });
+
+      }
+
+
+
+
+
+    })
+
+    this.apiService.getData("historialMascota/historial-mascotas").subscribe(data => {
+      console.log(data)
+      this.myData$ = data
     })
   }
 
@@ -268,7 +265,8 @@ export class MascotasComponent implements OnInit {
   }
 
   cancelDialogResult() {
-    this.matDialogRef.close()
+    if (this.matDialogRef)
+      this.matDialogRef.close()
   }
 
   viewFormNull() {
@@ -301,39 +299,36 @@ export class MascotasComponent implements OnInit {
 
       if (result.isConfirmed) {
 
-        const numeros = this.myData$.map(objeto => objeto.idMascota);
-        const id = Math.max(...numeros) + 1
-
-        console.log(id)
-
-        this.myData$ = [...this.myData$, {
-          idMascota: id,
-          idPropietario: 1,
+        this.apiService.postData('historialMascota/insertar-mascota', {
           fecha_nacimiento: this.formCreateItem.get('fechaNacimiento')?.value,
           especie: this.formCreateItem.get('especie')?.value,
           sexo: this.formCreateItem.get('sexo')?.value,
           nombre_mascota: this.formCreateItem.get('nombreMascota')?.value,
-          historial: this.formCreateItem.get('historial')?.value,
+          raza: this.formCreateItem.get('raza')?.value,
           nombre_propietario: this.formCreateItem.get('nombrePropietario')?.value,
           direccion: this.formCreateItem.get('direccion')?.value,
           cedula: this.formCreateItem.get('cedula')?.value,
           telefono: this.formCreateItem.get('telefono')?.value
-        }]
+        }).then((result) => {
+          if (result) {
+            Swal.fire({
+              title: "¡Guardado!",
+              text: "La información ha sido guardado.",
+              icon: "success"
+            });
+            this.formCreateItem.reset()
 
-        this.formCreateItem.reset()
-        this.cancelDialogResult()
+            this.cancelDialogResult()
+          } else {
 
-        Swal.fire({
-          title: "¡Guardado!",
-          text: "La información ha sido guardado.",
-          icon: "success"
-        });
+          }
+        })
       }
     });
   }
 
 
-  updateData(){
+  updateData() {
 
     Swal.fire({
       title: "¿Estas segura?",
@@ -346,23 +341,38 @@ export class MascotasComponent implements OnInit {
     }).then((result) => {
 
       if (result.isConfirmed) {
-        
-        let indice = this.myData$.findIndex(objeto => objeto.idMascota === this.itemUpdate.idMascota);
 
-        console.log(indice)
-        if(indice !== -1){
-          this.myData$[indice] = this.itemUpdate
-          this.myData$ = [...this.myData$]
-        }
+        this.apiService.postData('historialMascota/actualizar-mascota', {
+          id_mascota: this.itemUpdate.ID_Mascota,
+          // id_propietario: this.itemUpdate.Id_Propietario,
+          fecha_nacimiento: this.formUpdateItem.get('fechaNacimiento')?.value,
+          especie: this.formUpdateItem.get('especie')?.value,
+          sexo: this.formUpdateItem.get('sexo')?.value,
+          nombre_mascota: this.formUpdateItem.get('nombreMascota')?.value,
+          raza: this.formUpdateItem.get('raza')?.value,
+          nombre_propietario: this.formUpdateItem.get('nombrePropietario')?.value,
+          direccion: this.formUpdateItem.get('direccion')?.value,
+          cedula: this.formUpdateItem.get('cedula')?.value,
+          telefono: this.formUpdateItem.get('telefono')?.value
+        }).then((result) => {
+          if (result) {
+            Swal.fire({
+              title: "¡Guardado!",
+              text: "La información ha sido guardado.",
+              icon: "success"
+            });
+            this.formUpdateItem.reset()
 
-        this.cancelDialogResult()
-        
+            this.cancelDialogResult()
+            
+            this.apiService.getData("historialMascota/historial-mascotas").subscribe(data => {
+              console.log(data)
+              this.myData$ = data
+            })
+          } else {
 
-        Swal.fire({
-          title: "¡Actualizado!",
-          text: "La información ha sido actualizada.",
-          icon: "success"
-        });
+          }
+        })
       }
     });
 

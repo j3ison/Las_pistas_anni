@@ -6,6 +6,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { DataGlobalService } from '../module/view-data/services/data-global.service';
 import Swal from 'sweetalert2';
 import { isEmpty } from 'rxjs';
+import { ApiDataService } from '../api/api-data.service';
+import { dA } from '@fullcalendar/core/internal-common';
 
 interface Producto {
   idServicio: string;
@@ -22,86 +24,16 @@ interface Producto {
 })
 export class ServiciosComponent implements OnInit {
 
-  myData$: any[] = [
-    {
-      idServicio: "1",
-      tipoServicio: "Consulta",
-      descripcion: "Consulta veterinaria de rutina",
-      precio: "50",
-      productos: "Vacuna para gatos,Desparasitante para perros"
-    },
-    {
-      idServicio: "2",
-      tipoServicio: "Vacunación",
-      descripcion: "Vacuna antirrábica para perros",
-      precio: "30",
-      productos: "Vacuna antirrábica"
-    },
-    {
-      idServicio: "3",
-      tipoServicio: "Cirugía",
-      descripcion: "Esterilización de gatos",
-      precio: "100",
-      productos: "Esterilización, Antibióticos"
-    },
-    {
-      idServicio: "4",
-      tipoServicio: "Consulta",
-      descripcion: "Revisión de salud de aves",
-      precio: "40",
-      productos: "Alimento especial para aves"
-    },
-    {
-      idServicio: "5",
-      tipoServicio: "Vacunación",
-      descripcion: "Vacuna contra la parvovirosis para cachorros",
-      precio: "25",
-      productos: "Vacuna contra la parvovirosis"
-    },
-    {
-      idServicio: "6",
-      tipoServicio: "Baño y Corte de Pelo",
-      descripcion: "Baño y corte de pelo para perros de raza pequeña",
-      precio: "35",
-      productos: "Shampoo especial para perros, Corte de pelo"
-    },
-    {
-      idServicio: "7",
-      tipoServicio: "Consulta",
-      descripcion: "Consulta para conejos",
-      precio: "45",
-      productos: "Heno para conejos,Suplemento vitamínico"
-    },
-    {
-      idServicio: "8",
-      tipoServicio: "Vacunación",
-      descripcion: "Vacuna contra la rabia para gatos",
-      precio: "30",
-      productos: "Vacuna contra la rabia"
-    },
-    {
-      idServicio: "9",
-      tipoServicio: "Cirugía",
-      descripcion: "Cirugía de emergencia para perros",
-      precio: "150",
-      productos: "Anestesia general, Cirugía"
-    },
-    {
-      idServicio: "10",
-      tipoServicio: "Consulta",
-      descripcion: "Consulta de control para reptiles",
-      precio: "50",
-      productos: "Alimento para reptiles,Suplemento mineral"
-    }
-  ];
+  myData$: any[] = []
 
   tableColumns = [
-    { label: 'ID Servicio', def: 'idServicio', dataKey: 'idServicio' },
-    { label: 'Tipo de Servicio', def: 'tipoServicio', dataKey: 'tipoServicio' },
+    { label: 'ID Servicio', def: 'idServicio', dataKey: 'id_servicio' },
+    { label: 'Tipo de Servicio', def: 'tipoServicio', dataKey: 'tipo_servicio' },
     { label: 'Descripción', def: 'descripcion', dataKey: 'descripcion' },
     { label: 'Preció', def: 'precio', dataKey: 'precio' },
-    { label: 'Productos', def: 'productos', dataKey: 'productos' },
+    { label: 'Productos', def: 'productos', dataKey: 'Productos' },
   ]
+
 
 
   private matDialogRef!: MatDialogRef<DialogComponent>;
@@ -109,12 +41,22 @@ export class ServiciosComponent implements OnInit {
 
   itemsProductos: any[] = []
 
+  item = {
+    id_servicio: 0,
+    tipo_servicio: '',
+    descripcion: '',
+    precio: 0,
+    Productos: [
+      { id_producto: 0, cantidad: 0 }
+    ]
+  }
+
   formCreateItem: FormGroup = this.formBuilder.group(
     {
-      'tipoServicio': ['', Validators.nullValidator],
-      'descripcion': ['', Validators.required],
-      'precio': ['', Validators.required],
-      // 'productos': ['', Validators.required]
+      'tipoServicio': [this.item.tipo_servicio, Validators.nullValidator],
+      'descripcion': [this.item.descripcion, Validators.required],
+      'precio': [this.item.precio, Validators.required],
+      // 'productos': [this.item.Productos, Validators.required]
     }
   )
 
@@ -122,20 +64,13 @@ export class ServiciosComponent implements OnInit {
     return this.formCreateItem.get(fr) as FormControl;
   }
 
-  item: any = {
-    idServicio:0,
-    tipoServicio:'',
-    descripcion:'',
-    precio:0,
-    producto:''
-  }
+
 
   formUpdateItem: FormGroup = this.formBuilder.group(
     {
-      'tipoServicio': ['', Validators.nullValidator],
-      'descripcion': ['', Validators.required],
-      'precio': ['', Validators.required],
-      // 'productos': ['', Validators.required]
+      'tipoServicio': [this.item.tipo_servicio, Validators.nullValidator],
+      'descripcion': [this.item.descripcion, Validators.required],
+      'precio': [this.item.precio, Validators.required],
     }
   )
 
@@ -144,92 +79,38 @@ export class ServiciosComponent implements OnInit {
   }
 
   tableColumnsProducto = [
-    { label: 'ID Producto', def: 'idProducto', dataKey: 'idProducto' },
+    { label: 'ID Producto', def: 'idProducto', dataKey: 'id_Producto' },
     { label: 'Nombre', def: 'nombre', dataKey: 'nombre' },
     { label: 'Descripción', def: 'descripcion', dataKey: 'descripcion' },
     { label: 'Marca', def: 'marca', dataKey: 'marca' },
-    { label: 'Precio', def: 'precio', dataKey: 'precio' }
+    { label: 'Precio', def: 'precio', dataKey: 'precio' },
+    { label: 'Cantidad', def: 'cantidad', dataKey: 'cantidad' },
   ]
 
-  productoVal: any[] = [
-    {
-      idProducto: 2,
-      nombre: 'Desparasitante',
-      descripcion: 'Desparasitante mensual para perros y gatos',
-      marca: 'VetPlus',
-      precio: 150
-    },
-    {
-      idProducto: 3,
-      nombre: 'Alimento para perros',
-      descripcion: 'Alimento balanceado para perros adultos',
-      marca: 'NutriPet',
-      precio: 300
-    },
-    {
-      idProducto: 4,
-      nombre: 'Arena sanitaria',
-      descripcion: 'Arena para gatos que absorbe olores',
-      marca: 'FreshCat',
-      precio: 50
-    },
-    {
-      idProducto: 5,
-      nombre: 'Collar antipulgas',
-      descripcion: 'Collar repelente de pulgas y garrapatas',
-      marca: 'ProtectoPet',
-      precio: 80
-    },
-    {
-      idProducto: 6,
-      nombre: 'Juguete para perros',
-      descripcion: 'Pelota de goma para jugar con perros',
-      marca: 'PetFun',
-      precio: 15
-    },
-    {
-      idProducto: 7,
-      nombre: 'Camita para gatos',
-      descripcion: 'Camita suave y cómoda para gatos',
-      marca: 'CozyCats',
-      precio: 35
-    },
-    {
-      idProducto: 8,
-      nombre: 'Shampoo hipoalergénico',
-      descripcion: 'Shampoo suave para pieles sensibles',
-      marca: 'SensitiveGroom',
-      precio: 100
-    },
-    {
-      idProducto: 9,
-      nombre: 'Snacks para entrenamiento',
-      descripcion: 'Premios pequeños para incentivar el entrenamiento',
-      marca: 'TrainTreats',
-      precio: 25
-    },
-    {
-      idProducto: 10,
-      nombre: 'Champú antipulgas',
-      descripcion: 'Champú para eliminar pulgas y garrapatas',
-      marca: 'BioCare',
-      precio: 120
-    }
-  ]
+  productoVal: any[] = []
 
   modeChange = true;
 
   obtenerProducto($event: any) {
     const data = { ...$event }
 
+    console.log(data)
+
     data.cantidad = 1
-    if(this.itemsProductos.filter(obj => obj.nombre === data.nombre).length <= 0){
-      
+    if (this.itemsProductos.filter(obj => obj.nombre === data.nombre).length <= 0) {
+
       this.itemsProductos = [...this.itemsProductos, data]
       this.modeChange = true
+
+      // this.item.precio = this.itemsProductos.reduce((total, elemento) => total + elemento.precio, 0) + (this.itemsProductos.reduce((total, elemento) => total + elemento.precio, 0) * 0.20)
+
+
+
+      this.formCreateItem.patchValue({
+        'precio': this.itemsProductos.reduce((total, elemento) => total + elemento.precio, 0) + (this.itemsProductos.reduce((total, elemento) => total + elemento.precio, 0) * 0.20),
+      })
     }
-    else
-    {
+    else {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -243,23 +124,26 @@ export class ServiciosComponent implements OnInit {
     this.modeChange = true
   }
 
-  onInputChange(event: any,index:number) {
-    
+  onInputChange(event: any, index: number) {
+
     const data = (event.target as HTMLInputElement).value
-    if(data !== ''){
-      // console.log((event.target as HTMLInputElement).value)
+    if (data !== '') {
 
       const objeto = this.productoVal.find(obj => obj.nombre == this.itemsProductos[index].nombre)
-      if(objeto){
+      if (objeto) {
+
+
         this.itemsProductos[index].precio = Number(data) * objeto.precio
 
-        this.item.precio = this.itemsProductos.reduce((total, elemento) => total + elemento.precio, 0) + (this.itemsProductos.reduce((total, elemento) => total + elemento.precio, 0) * 0.20)
+        this.formCreateItem.patchValue({
+          'precio': this.itemsProductos.reduce((total, elemento) => total + elemento.precio, 0) + (this.itemsProductos.reduce((total, elemento) => total + elemento.precio, 0) * 0.20),
+        })
       }
-      
+
     }
   }
 
-  eliminarProducto(index:number){
+  eliminarProducto(index: number) {
     Swal.fire({
       title: "¿Estas segura?",
       text: "¡No podrás revertir esto!",
@@ -270,32 +154,53 @@ export class ServiciosComponent implements OnInit {
       confirmButtonText: "¡Sí, bórralo!"
     }).then((result) => {
 
-      this.itemsProductos.splice(index, 1);
 
       if (result.isConfirmed) {
+        this.itemsProductos.splice(index, 1);
         Swal.fire({
           title: "¡Eliminado!",
           text: "El producto ha sido eliminado.",
           icon: "success"
         });
+
+        this.formCreateItem.patchValue({
+          'precio': this.itemsProductos.reduce((total, elemento) => total + elemento.precio, 0) + (this.itemsProductos.reduce((total, elemento) => total + elemento.precio, 0) * 0.20),
+        })
       }
     });
   }
 
-
-
-
-
-
   constructor(private dialogService: DialogService,
     private dialogServiceProducto: DialogService,
     private formBuilder: FormBuilder,
-    private dataGlobalservice: DataGlobalService) { }
+    private dataGlobalservice: DataGlobalService,
+    private apiService: ApiDataService) { }
 
   ngOnInit(): void {
+
+    console.log(this.item)
     this.dataGlobalservice.$itemView.subscribe(item => {
       this.item = item
+
+      if (item) {
+        this.formCreateItem.patchValue({
+          'precio': this.item.precio?this.item.precio:0,
+          'tipoServicio': this.item.tipo_servicio,
+          'descripcion': this.item.descripcion
+        })
+
+        console.log(this.item)
+      }
     })
+
+    this.apiService.getData("infoServicio/servicios").subscribe(data => {
+      this.myData$ = data
+    })
+
+    this.apiService.getData("producto/productos").subscribe(data => {
+      this.productoVal = data
+    })
+
   }
 
   openDialogWithTemplate(template: TemplateRef<any>) {
@@ -317,7 +222,111 @@ export class ServiciosComponent implements OnInit {
   }
 
   cancelDialogResultProduct() {
-    this.matDialogRefProducto.close()
+    if (this.matDialogRefProducto) {
+      this.matDialogRefProducto.close()
+    }
+  }
+
+  saveData() {
+
+    let productos = this.itemsProductos.map(item => {
+      return {
+        id_producto: item.id_Producto,
+        cantidad: item.cantidad
+      };
+    })
+
+
+    Swal.fire({
+      title: "¿Estas segura?",
+      text: "¡No podrás revertir esto!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "¡Sí, Actualizalo!"
+    }).then((result) => {
+
+      if (result.isConfirmed) {
+
+
+
+        this.apiService.postData('infoServicio/insertar-servicio', {
+          nuevo_tipo_servicio: this.formCreateItem.get('tipoServicio')?.value,
+          nueva_descripcion: this.formCreateItem.get('descripcion')?.value,
+          nuevo_precio: this.formCreateItem.get('precio')?.value,
+          productos: productos,
+
+        }).then((result) => {
+          if (result) {
+            Swal.fire({
+              title: "¡Guardado!",
+              text: "La información ha sido guardado.",
+              icon: "success"
+            });
+            this.formCreateItem.reset()
+
+            this.cancelDialogResult()
+
+            this.itemsProductos = []
+
+            this.apiService.getData("infoServicio/servicios").subscribe(data => {
+              this.myData$ = data
+            })
+
+          } else {
+
+          }
+        })
+      }
+    });
+  }
+
+  updateData() {
+
+
+    Swal.fire({
+      title: "¿Estas segura?",
+      text: "¡No podrás revertir esto!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "¡Sí, Actualizalo!"
+    }).then((result) => {
+
+      if (result.isConfirmed) {
+
+
+
+        this.apiService.postData('infoServicio/insertar-servicio', {
+          nuevo_tipo_servicio: this.formUpdateItem.get('tipoServicio')?.value,
+          nueva_descripcion: this.formUpdateItem.get('descripcion')?.value,
+          nuevo_precio: this.formUpdateItem.get('precio')?.value,
+
+        }).then((result) => {
+          if (result) {
+            Swal.fire({
+              title: "¡Guardado!",
+              text: "La información ha sido guardado.",
+              icon: "success"
+            });
+            this.formUpdateItem.reset()
+
+            this.cancelDialogResult()
+
+            this.itemsProductos = []
+
+            this.apiService.getData("infoServicio/servicios").subscribe(data => {
+              this.myData$ = data
+            })
+
+          } else {
+
+          }
+        })
+      }
+    });
   }
 
 }

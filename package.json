@@ -30,6 +30,7 @@
     "chartjs-plugin-datalabels": "^2.2.0",
     "date-fns": "^3.6.0",
     "ng2-charts": "^4.1.1",
+    "ngx-cookie-service": "^18.0.0",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.10.8",
     "tslib": "^2.3.0",

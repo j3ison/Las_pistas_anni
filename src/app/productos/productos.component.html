@@ -1,6 +1,5 @@
-<app-table [data]="myData$" [columns]="tableColumns" [setItemACtion]="itemAction" [setItemCreation]="formCreate">
+<app-table [data]="myData$" [columns]="tableColumns" [setItemACtion]="itemUpdateAction" [setItemCreation]="formCreate">
 </app-table>
-
 
 
 <ng-template #formCreate>
@@ -19,10 +18,10 @@
                 </div>
                 <div class="form">
                     <label class="title">Descripción del producto</label>
-                    <input class="form-data" type="text" formControlName="descipcion">
+                    <input class="form-data" type="text" formControlName="descripcion">
                     <i class="fa-solid fa-pen-to-square"></i>
                     <div class="alert alert-danger mt-1"
-                        [hidden]="formGetCreateItem('descipcion').valid || (formGetCreateItem('descipcion').pristine)">
+                        [hidden]="formGetCreateItem('descripcion').valid || (formGetCreateItem('descripcion').pristine)">
                         El campo no puede estar Vacio.
                     </div>
                 </div>
@@ -110,7 +109,7 @@
             <div class="content-form-item">
                 <div class="form">
                     <label class="title">Tipo de producto</label>
-                    <input class="form-data" type="text" formControlName="tipoProducto" [(ngModel)]="itemUpdate.tipoProducto">
+                    <input class="form-data" type="text" formControlName="tipoProducto" [(ngModel)]="itemUpdate.Tipo_Producto">
                     <i class="fa-solid fa-mobile"></i>
                     <div class="alert alert-danger mt-1"
                         [hidden]="formGetUpdateItem('tipoProducto').valid || (formGetUpdateItem('tipoProducto').pristine)">
@@ -162,11 +161,54 @@
 </ng-template>
 
 
-<ng-template #itemAction>
+<ng-template #itemUpdateAction>
     <div class="container-action">
         <h1 class="title-action" >¿Qué acción desea realizar?</h1>
-        <button class="btn-action btn-primary" (click)="viewFormNull()">Ver Información</button>
+        <button class="btn-action btn-primary" (click)="openDialogWithTemplate(info)">Ver Información</button>
         <button class="btn-action btn-primary" (click)="openDialogWithTemplate(formUpdate)">Actualizar Información</button>
+    </div>
+</ng-template>
+
+
+
+<ng-template #info>
+    <div class="container-info" >
+        <div class="content-left">
+        </div>
+    
+        <div class="content-right">
+            <h1  class="content-left-title">Información del Producto</h1>
+
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>ID Producto</strong></h2>
+                <span class="content-right-content-text">{{itemUpdate.id_Producto}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Nombre del Productos</strong></h2>
+                <span class="content-right-content-text">{{itemUpdate.nombre}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Descripcion</strong></h2>
+                <span class="content-right-content-text">{{itemUpdate.descripcion}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Tipo de Producto</strong></h2>
+                <span class="content-right-content-text">{{itemUpdate.Tipo_Producto}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Marca</strong></h2>
+                <span class="content-right-content-text">{{itemUpdate.marca}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Precio</strong></h2>
+                <span class="content-right-content-text">{{itemUpdate.precio}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>cantidad</strong></h2>
+                <span class="content-right-content-text">{{itemUpdate.cantidad}}</span>
+            </div>
+            
+        </div>
     </div>
 </ng-template>
 

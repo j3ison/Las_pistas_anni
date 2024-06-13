@@ -1,158 +1,252 @@
-<app-table [data]="myData$" [columns]="tableColumns" [setItemACtion]="itemAction">
+<app-table [data]="myData$" [columns]="tableColumns" [setItemACtion]="itemAction" [setItemCreation]="formCreate">
 </app-table>
 
 
-<ng-template #formCreate>
+<ng-template #formUpdate>
     <div class="container-form">
-        <form class="content-form">
-            <h1>Formulario Usuarios</h1>
+        <form class="content-form" *ngIf="valChange == 0" [formGroup]="formCreateItem">
+            <h1>Actualizar la Reserva</h1>
+
+            <div style="width: calc(100%); display: flex; align-items: center; justify-content: flex-end; padding: 1.5rem;">
+                <button class="btn btn-primary" (click)="valChange = 1">
+                    Seleccionar Propietario <i class="fa-solid fa-hand-point-up"></i>
+                </button>
+            </div>
             <div class="content-form-item">
                 <div class="form">
                     <label class="title">Cedula</label>
-                    <input class="form-data" type="text" >
+                    <input class="form-data" type="text" readonly [(ngModel)]="itemMascota.Cedula" [ngModelOptions]="{standalone: true}">
                     <i class="fa-solid fa-address-book"></i>
                 </div>
                 <div class="form">
                     <label class="title">Nombre del propietario</label>
-                    <input class="form-data" type="text" >
+                    <input class="form-data" type="text" readonly [(ngModel)]="itemMascota.Nombre_Propietario" [ngModelOptions]="{standalone: true}">
                     <i class="fa-solid fa-address-book"></i>
                 </div>
             </div>
             <div class="content-form-item">
                 <div class="form">
                     <label class="title">Telefono</label>
-                    <input class="form-data" type="text" >
+                    <input class="form-data" type="text" readonly [(ngModel)]="itemMascota.Telefono" [ngModelOptions]="{standalone: true}">
                     <i class="fa-solid fa-address-book"></i>
                 </div>
-                
-                    <mat-form-field class="form" >
-                        <mat-label>Dirección</mat-label>
-                        <textarea matInput placeholder=""></textarea>
-                    </mat-form-field>
-                
-            </div>
-            <div> 
-                <h1>Datos de la mascota</h1>
-            </div>
-            <div class="content-form-item">
+
                 <div class="form">
                     <label class="title">Nombre de Mascota</label>
-                    <input class="form-data" type="text" >
-                    <i class="fa-solid fa-address-book"></i>
-                </div>
-                <div class="form">
-                    <label class="title">Sexo</label>
-                    <input class="form-data" type="text" >
+                    <input class="form-data" type="text" readonly [(ngModel)]="itemMascota.Nombre_Mascota" [ngModelOptions]="{standalone: true}">
                     <i class="fa-solid fa-address-book"></i>
                 </div>
             </div>
+
             <div class="content-form-item">
-                <div class="form">
-                    <label class="title">Especie</label>
-                    <input class="form-data" type="text" >
-                    <i class="fa-solid fa-address-book"></i>
-                </div>
-                <div class="form">
-                    <label class="title">Fecha de Nacimiento</label>
-                    <input class="form-data" type="text" >
-                    <i class="fa-solid fa-address-book"></i>
-                </div>
-            </div>
-            <div class="content-form-item">
-                <mat-form-field class="form">
-                    <mat-label>Historial de la mascota</mat-label>
-                    <textarea matInput placeholder=""></textarea>
+                <mat-form-field class="form" >
+                    <mat-label >Dirección</mat-label>
+                    <textarea readonly [(ngModel)]="itemMascota.Direccion" [ngModelOptions]="{standalone: true}" matInput placeholder=""></textarea>
                 </mat-form-field>
             </div>
+
+            <div style="width: calc(100%); display: flex; align-items: center; justify-content: flex-end; padding: 1.5rem;">
+                <button class="btn btn-primary" (click)="valChange = 2">
+                    Seleccionar Servicio <i class="fa-solid fa-hand-point-up"></i>
+                </button>
+            </div>
+
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Tipo de servicio</label>
+                    <input class="form-data" type="text" readonly [(ngModel)]="itemServicio.tipo_servicio" [ngModelOptions]="{standalone: true}">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+                <div class="form">
+                    <label class="title">Precio</label>
+                    <input class="form-data" type="text" readonly [(ngModel)]="itemServicio.precio" [ngModelOptions]="{standalone: true}">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+            </div>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Descripción</label>
+                    <input class="form-data" type="text" readonly [(ngModel)]="itemServicio.descripcion" [ngModelOptions]="{standalone: true}">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+                <div class="form">
+                    <label class="title">Ubicación</label>
+                    <input class="form-data" type="text" formControlName="ubicacion">
+                    <i class="fa-solid fa-address-book"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('ubicacion').valid || (formGetCreateItem('ubicacion').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-form-item">
+               <div class="form">
+                    <label class="title">Fecha de la Reserva</label>
+                    <input class="form-data" type="text" formControlName="fechaCita">
+                    <i class="fa-solid fa-address-book"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('fechaCita').valid || (formGetCreateItem('fechaCita').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+                <div class="form">
+                    <label class="title">Hora de la Reserva</label>
+                    <input class="form-data" type="text" formControlName="horaCita">
+                    <i class="fa-solid fa-address-book"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('horaCita').valid || (formGetCreateItem('horaCita').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+            </div>
+
             <div class="form-button">
                 <button class="btn btn-danger" #btnEnviar>
                     Cancelar
                 </button>
     
-                <button class="btn btn-primary" #btnEnviar>
+                <button class="btn btn-primary" #btnEnviar (click)="updateData()">
                     Guardar
                 </button>
             </div>
     
         </form>
+        <div *ngIf="valChange == 1">
+            <app-sub-tablet [data]="myDataMascotas" [columns]="tableColumnsMascota"
+                (selectItemsCell)="obtenerMascota($event)" (cancelTable)="cancelarTabla()">
+            </app-sub-tablet>
+        </div>
+        <div *ngIf="valChange == 2">
+            <app-sub-tablet [data]="myDataServicios" [columns]="tableColumnsServicio"
+                (selectItemsCell)="obtenerServicio($event)" (cancelTable)="cancelarTabla()">
+            </app-sub-tablet>
+        </div>
     </div>
 </ng-template>
 
 
 
-<ng-template #formUpdate>
+<ng-template #formCreate>
     <div class="container-form">
-        <form class="content-form">
-            <h1>Formulario Usuarios</h1>
+        <form class="content-form" *ngIf="valChange == 0" [formGroup]="formCreateItem">
+            <h1>Nueva Reserva</h1>
+
+            <div style="width: calc(100%); display: flex; align-items: center; justify-content: flex-end; padding: 1.5rem;">
+                <button class="btn btn-primary" (click)="valChange = 1">
+                    Seleccionar Propietario <i class="fa-solid fa-hand-point-up"></i>
+                </button>
+            </div>
             <div class="content-form-item">
                 <div class="form">
                     <label class="title">Cedula</label>
-                    <input class="form-data" type="text" >
+                    <input class="form-data" type="text" readonly [(ngModel)]="itemMascota.Cedula" [ngModelOptions]="{standalone: true}">
                     <i class="fa-solid fa-address-book"></i>
                 </div>
                 <div class="form">
                     <label class="title">Nombre del propietario</label>
-                    <input class="form-data" type="text" >
+                    <input class="form-data" type="text" readonly [(ngModel)]="itemMascota.Nombre_Propietario" [ngModelOptions]="{standalone: true}">
                     <i class="fa-solid fa-address-book"></i>
                 </div>
             </div>
             <div class="content-form-item">
                 <div class="form">
                     <label class="title">Telefono</label>
-                    <input class="form-data" type="text" >
+                    <input class="form-data" type="text" readonly [(ngModel)]="itemMascota.Telefono" [ngModelOptions]="{standalone: true}">
                     <i class="fa-solid fa-address-book"></i>
                 </div>
-                
-                    <mat-form-field class="form" >
-                        <mat-label>Dirección</mat-label>
-                        <textarea matInput placeholder=""></textarea>
-                    </mat-form-field>
-                
-            </div>
-            <div> 
-                <h1>Datos de la mascota</h1>
-            </div>
-            <div class="content-form-item">
+
                 <div class="form">
                     <label class="title">Nombre de Mascota</label>
-                    <input class="form-data" type="text" >
-                    <i class="fa-solid fa-address-book"></i>
-                </div>
-                <div class="form">
-                    <label class="title">Sexo</label>
-                    <input class="form-data" type="text" >
+                    <input class="form-data" type="text" readonly [(ngModel)]="itemMascota.Nombre_Mascota" [ngModelOptions]="{standalone: true}">
                     <i class="fa-solid fa-address-book"></i>
                 </div>
             </div>
+
             <div class="content-form-item">
-                <div class="form">
-                    <label class="title">Especie</label>
-                    <input class="form-data" type="text" >
-                    <i class="fa-solid fa-address-book"></i>
-                </div>
-                <div class="form">
-                    <label class="title">Fecha de Nacimiento</label>
-                    <input class="form-data" type="text" >
-                    <i class="fa-solid fa-address-book"></i>
-                </div>
-            </div>
-            <div class="content-form-item">
-                <mat-form-field class="form">
-                    <mat-label>Historial de la mascota</mat-label>
-                    <textarea matInput placeholder=""></textarea>
+                <mat-form-field class="form" >
+                    <mat-label >Dirección</mat-label>
+                    <textarea readonly [(ngModel)]="itemMascota.Direccion" [ngModelOptions]="{standalone: true}" matInput placeholder=""></textarea>
                 </mat-form-field>
             </div>
+
+            <div style="width: calc(100%); display: flex; align-items: center; justify-content: flex-end; padding: 1.5rem;">
+                <button class="btn btn-primary" (click)="valChange = 2">
+                    Seleccionar Servicio <i class="fa-solid fa-hand-point-up"></i>
+                </button>
+            </div>
+
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Tipo de servicio</label>
+                    <input class="form-data" type="text" readonly [(ngModel)]="itemServicio.tipo_servicio" [ngModelOptions]="{standalone: true}">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+                <div class="form">
+                    <label class="title">Precio</label>
+                    <input class="form-data" type="text" readonly [(ngModel)]="itemServicio.precio" [ngModelOptions]="{standalone: true}">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+            </div>
+            <div class="content-form-item">
+                <div class="form">
+                    <label class="title">Descripción</label>
+                    <input class="form-data" type="text" readonly [(ngModel)]="itemServicio.descripcion" [ngModelOptions]="{standalone: true}">
+                    <i class="fa-solid fa-address-book"></i>
+                </div>
+                <div class="form">
+                    <label class="title">Ubicación</label>
+                    <input class="form-data" type="text" formControlName="ubicacion">
+                    <i class="fa-solid fa-address-book"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('ubicacion').valid || (formGetCreateItem('ubicacion').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-form-item">
+               <div class="form">
+                    <label class="title">Fecha de la Reserva</label>
+                    <input class="form-data" type="text" formControlName="fechaCita">
+                    <i class="fa-solid fa-address-book"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('fechaCita').valid || (formGetCreateItem('fechaCita').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+                <div class="form">
+                    <label class="title">Hora de la Reserva</label>
+                    <input class="form-data" type="text" formControlName="horaCita">
+                    <i class="fa-solid fa-address-book"></i>
+                    <div class="alert alert-danger mt-1"
+                        [hidden]="formGetCreateItem('horaCita').valid || (formGetCreateItem('horaCita').pristine)">
+                        El campo no puede estar Vacio.
+                    </div>
+                </div>
+            </div>
+
             <div class="form-button">
                 <button class="btn btn-danger" #btnEnviar>
                     Cancelar
                 </button>
     
-                <button class="btn btn-primary" #btnEnviar>
+                <button class="btn btn-primary" #btnEnviar (click)="saveData()">
                     Guardar
                 </button>
             </div>
     
         </form>
+        <div *ngIf="valChange == 1">
+            <app-sub-tablet [data]="myDataMascotas" [columns]="tableColumnsMascota"
+                (selectItemsCell)="obtenerMascota($event)" (cancelTable)="cancelarTabla()">
+            </app-sub-tablet>
+        </div>
+        <div *ngIf="valChange == 2">
+            <app-sub-tablet [data]="myDataServicios" [columns]="tableColumnsServicio"
+                (selectItemsCell)="obtenerServicio($event)" (cancelTable)="cancelarTabla()">
+            </app-sub-tablet>
+        </div>
     </div>
 </ng-template>
 
@@ -160,8 +254,61 @@
 <ng-template #itemAction>
     <div class="container-action">
         <h1 class="title-action" >¿Qué acción desea realizar?</h1>
-        <button class="btn-action btn-primary" (click)="openDialogWithTemplate(formCreate)">Ver Información</button>
+        <button class="btn-action btn-primary" (click)="openDialogWithTemplate(info)">Ver Información</button>
         <button class="btn-action btn-primary" (click)="openDialogWithTemplate(formUpdate)">Actualizar Información</button>
+    </div>
+</ng-template>
+
+
+<ng-template #info>
+    <div class="container-info" >
+        <div class="content-left">     
+        </div>
+    
+        <div class="content-right">
+            <h1  class="content-left-title">Información de la Reserva</h1>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Cedula</strong></h2>
+                <span class="content-right-content-text">{{item.Cedula}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Nombre del Propietario</strong></h2>
+                <span class="content-right-content-text">{{item.Nombre_Propietario}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Telefono</strong></h2>
+                <span class="content-right-content-text">{{item.Telefono}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Direccion</strong></h2>
+                <span class="content-right-content-text">{{item.Direccion}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Nombre de la Mascota</strong></h2>
+                <span class="content-right-content-text">{{item.Nombre_Mascota}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Fecha de la cita</strong></h2>
+                <span class="content-right-content-text">{{item.Fecha_Cita}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Hora de la cita</strong></h2>
+                <span class="content-right-content-text">{{item.Hora_Cita}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Tipo de servicio</strong></h2>
+                <span class="content-right-content-text">{{item.Tipo_Servicio}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Descripcion del servicio</strong></h2>
+                <span class="content-right-content-text">{{item.Descripcion_Servicio}}</span>
+            </div>
+            
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Precio de producto</strong></h2>
+                <span class="content-right-content-text">{{item.Precio_Producto}}</span>
+            </div>
+        </div>
     </div>
 </ng-template>
 

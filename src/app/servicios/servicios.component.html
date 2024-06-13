@@ -1,4 +1,4 @@
-<app-table [data]="myData$" [columns]="tableColumns" [setItemACtion]="itemAction">
+<app-table [data]="myData$" [columns]="tableColumns" [setItemACtion]="itemAction" [setItemCreation]="formCreate">
 </app-table>
 
 
@@ -6,12 +6,12 @@
 
     <div class="container-form">
 
-        <form class="content-form" *ngIf="modeChange">
+        <form class="content-form" *ngIf="modeChange" [formGroup]="formCreateItem">
             <h1>Formulario Servicio</h1>
             <div class="content-form-item">
                 <div class="form">
                     <label class="title">Tipo de Servicio</label>
-                    <input class="form-data" type="text" [(ngModel)]="item.tipoServicio"  [ngModelOptions]="{standalone: true}">
+                    <input class="form-data" type="text" formControlName="tipoServicio">
                     <i class="fa-solid fa-address-book"></i>
                 </div>
                 <div class="form">
@@ -31,7 +31,7 @@
                         matTooltip="El precio del servicio se calcula del siguiente modo:
                         el total del costo de los productos + 20% del total" matTooltipPosition="below"></i>
                     </div>
-                    <input class="form-data" type="text" [(ngModel)]="item.precio"  [ngModelOptions]="{standalone: true}">
+                    <input class="form-data" type="text" formControlName="precio" >
                     <i class="fa-solid fa-address-book"></i>
                 </div>
             </div>
@@ -39,7 +39,7 @@
             <div class="content-form-item">
                 <mat-form-field class="form">
                     <mat-label>Descripción del servicio</mat-label>
-                    <textarea matInput placeholder="" [(ngModel)]="item.descripcion"  [ngModelOptions]="{standalone: true}"></textarea>
+                    <textarea matInput placeholder="" formControlName="descripcion"></textarea>
                 </mat-form-field>
             </div>
 
@@ -113,7 +113,7 @@
                     Cancelar
                 </button>
 
-                <button class="btn btn-primary" style="width: 80px;" #btnEnviar>
+                <button class="btn btn-primary" style="width: 80px;" #btnEnviar (click)="saveData()">
                     Guardar
                 </button>
             </div>
@@ -127,75 +127,29 @@
     </div>
 </ng-template>
 
-<ng-template #tabletProducto>
-    <div >
-        <app-table [data]="productoVal" [columns]="tableColumnsProducto">
-        </app-table>
-    </div>
-</ng-template>
-
 
 
 <ng-template #formUpdate>
     <div class="container-form">
-        <form class="content-form">
+        <form class="content-form" [formGroup]="formUpdateItem">
             <h1>Formulario Usuarios</h1>
             <div class="content-form-item">
                 <div class="form">
-                    <label class="title">Cedula</label>
-                    <input class="form-data" type="text">
+                    <label class="title">Tipo de Servicio</label>
+                    <input class="form-data" type="text" formControlName="tipoServicio">
                     <i class="fa-solid fa-address-book"></i>
                 </div>
                 <div class="form">
-                    <label class="title">Nombre del propietario</label>
-                    <input class="form-data" type="text">
+                    <label class="title">Precio</label>
+                    <input class="form-data" type="text" formControlName="precio" >
                     <i class="fa-solid fa-address-book"></i>
                 </div>
             </div>
-            <div class="content-form-item">
-                <div class="form">
-                    <label class="title">Telefono</label>
-                    <input class="form-data" type="text">
-                    <i class="fa-solid fa-address-book"></i>
-                </div>
 
-                <mat-form-field class="form">
-                    <mat-label>Dirección</mat-label>
-                    <textarea matInput placeholder=""></textarea>
-                </mat-form-field>
-
-            </div>
-            <div>
-                <h1>Datos de la mascota</h1>
-            </div>
-            <div class="content-form-item">
-                <div class="form">
-                    <label class="title">Nombre de Mascota</label>
-                    <input class="form-data" type="text">
-                    <i class="fa-solid fa-address-book"></i>
-                </div>
-                <div class="form">
-                    <label class="title">Sexo</label>
-                    <input class="form-data" type="text">
-                    <i class="fa-solid fa-address-book"></i>
-                </div>
-            </div>
-            <div class="content-form-item">
-                <div class="form">
-                    <label class="title">Especie</label>
-                    <input class="form-data" type="text">
-                    <i class="fa-solid fa-address-book"></i>
-                </div>
-                <div class="form">
-                    <label class="title">Fecha de Nacimiento</label>
-                    <input class="form-data" type="text">
-                    <i class="fa-solid fa-address-book"></i>
-                </div>
-            </div>
             <div class="content-form-item">
                 <mat-form-field class="form">
-                    <mat-label>Historial de la mascota</mat-label>
-                    <textarea matInput placeholder=""></textarea>
+                    <mat-label>Descripción del servicio</mat-label>
+                    <textarea matInput placeholder="" formControlName="descripcion"></textarea>
                 </mat-form-field>
             </div>
             <div class="form-button">
@@ -203,7 +157,7 @@
                     Cancelar
                 </button>
 
-                <button class="btn btn-primary" #btnEnviar>
+                <button class="btn btn-primary" #btnEnviar (click)="updateData()">
                     Guardar
                 </button>
             </div>
@@ -216,12 +170,44 @@
 <ng-template #itemAction>
     <div class="container-action">
         <h1 class="title-action">¿Qué acción desea realizar?</h1>
-        <button class="btn-action btn-primary" (click)="openDialogWithTemplate(formCreate)">Ver Información</button>
-        <button class="btn-action btn-primary" (click)="openDialogWithTemplate(formUpdate)">Actualizar
-            Información</button>
+        <button class="btn-action btn-primary" (click)="openDialogWithTemplate(info)">Ver Información</button>
+        <button class="btn-action btn-primary" (click)="openDialogWithTemplate(formUpdate)">Actualizar Información</button>
     </div>
 </ng-template>
 
+
+<ng-template #info>
+    <div class="container-info" >
+        <div class="content-left">
+            
+        </div>
+    
+        <div class="content-right">
+            <h1  class="content-left-title">Información del Servicio</h1>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>ID Servicio</strong></h2>
+                <span class="content-right-content-text">{{item.id_servicio}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Tipo de Servicio</strong></h2>
+                <span class="content-right-content-text">{{item.tipo_servicio}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Descripcion</strong></h2>
+                <span class="content-right-content-text">{{item.descripcion}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Precio</strong></h2>
+                <span class="content-right-content-text">{{item.precio}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Productos</strong></h2>
+                <span class="content-right-content-text">{{item.Productos}}</span>
+            </div>
+            
+        </div>
+    </div>
+</ng-template>
 
 <!-- 
 <div class="container-card-producto">

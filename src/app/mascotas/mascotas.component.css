@@ -124,3 +124,70 @@
         border-color: rgb(0, 174, 240);
     }
 }
+
+
+.container-info {
+    min-width: 1000px;
+    height: 60vh;
+    /* max-height: 90vh;
+    overflow-y: scroll; */
+    display: flex;
+    flex-direction: row;
+
+    .content-left {
+        width: 500px;
+        height: calc(100%);
+        background: url('../../assets/images/mascotas-info.jpg');
+        background-size: cover;
+        /* Hace que la imagen cubra todo el div */
+        background-position: center;
+        /* Centra la imagen */
+        background-repeat: no-repeat;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-right: 1px solid #000000;
+
+        .content-left-title {
+            margin-top: -230px;
+            font-family: 'Crimson Text', serif;
+            font-size: 54px;
+            font-weight: 800;
+            /* background: #CCEAF4; */
+            color: #000000;
+            text-align: center;
+            text-shadow:
+                -1px -1px 0 #ffffff,
+                1px -1px 0 #ffffff,
+                -1px 1px 0 #ffffff,
+                1px 1px 0 #ffffff;
+            line-height: 1;
+        }
+    }
+
+    .content-right {
+        width: 500px;
+        height: calc(100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .content-right-content {
+            width: 400px;
+            height: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+
+
+            .content-right-content-text {
+                font-family: 'Crimson Text', serif;
+                font-size: 17px;
+                font-weight: 500;
+                margin: 0;
+            }
+        }
+    }
+}

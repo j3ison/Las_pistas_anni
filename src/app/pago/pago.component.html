@@ -1,5 +1,4 @@
 <app-table [data]="myData$" [columns]="tableColumns" [setItemACtion]="itemAction" [buttonShowUpdate]="false">
-
 </app-table>
 
 
@@ -10,7 +9,7 @@
             <div class="content-form-item">
                 <div class="form">
                     <label class="title">Cedula</label>
-                    <input class="form-data" type="text" formControlName="cedula" [(ngModel)]="item.cedula" readonly>
+                    <input class="form-data" type="text" formControlName="cedula" [(ngModel)]="item.Cedula_Propietario" readonly>
                     <i class="fa-solid fa-id-card"></i>
                     <div
                         *ngIf="formGetCreateItem('cedula').invalid && (formGetCreateItem('cedula').dirty || formGetCreateItem('cedula').touched)">
@@ -24,7 +23,7 @@
                 </div>
                 <div class="form">
                     <label class="title">Nombre del propietario</label>
-                    <input class="form-data" type="text" formControlName="nombrePropietario" [(ngModel)]="item.nombre_propietario" readonly>
+                    <input class="form-data" type="text" formControlName="nombrePropietario" [(ngModel)]="item.Nombre_Propietario" readonly>
                     <i class="fa-solid fa-pen-to-square"></i>
                     <div class="alert alert-danger mt-1"
                         [hidden]="formGetCreateItem('nombrePropietario').valid || (formGetCreateItem('nombrePropietario').pristine)">
@@ -35,7 +34,7 @@
             <div class="content-form-item">
                 <div class="form">
                     <label class="title">Fecha de la Cita</label>
-                    <input class="form-data" type="text" formControlName="fechaCita" [(ngModel)]="item.fecha_cita" readonly>
+                    <input class="form-data" type="text" formControlName="fechaCita" [(ngModel)]="item.Fecha_Cita" readonly>
                     <i class="fa-solid fa-calendar-day"></i>
                     <div class="alert alert-danger mt-1"
                         [hidden]="formGetCreateItem('fechaCita').valid || (formGetCreateItem('fechaCita').pristine)">
@@ -45,7 +44,7 @@
 
                 <div class="form">
                     <label class="title">Hora de la Cita</label>
-                    <input class="form-data" type="text" formControlName="horaCita" [(ngModel)]="item.hora_cita" readonly>
+                    <input class="form-data" type="text" formControlName="horaCita" [(ngModel)]="item.Hora_Cita" readonly>
                     <i class="fa-solid fa-clock"></i>
                     <div
                         *ngIf="formGetCreateItem('horaCita').invalid && (formGetCreateItem('horaCita').dirty || formGetCreateItem('horaCita').touched)">
@@ -62,7 +61,7 @@
             <div class="content-form-item">
                 <div class="form">
                     <label class="title">Tipo de Servicio</label>
-                    <input class="form-data" type="text" formControlName="tipoServicio" [(ngModel)]="item.tipo_servicio" readonly>
+                    <input class="form-data" type="text" formControlName="tipoServicio" [(ngModel)]="item.Tipo_Servicio" readonly>
                     <i class="fa-solid fa-pen-to-square"></i>
                     <div class="alert alert-danger mt-1"
                         [hidden]="formGetCreateItem('tipoServicio').valid || (formGetCreateItem('tipoServicio').pristine)">
@@ -71,7 +70,7 @@
                 </div>
                 <mat-form-field class="form">
                     <mat-label>Descripcion del servicio</mat-label>
-                    <textarea matInput placeholder="" formControlName="descripcionServicio" [(ngModel)]="item.descripcion_servicio" readonly></textarea>
+                    <textarea matInput placeholder="" formControlName="descripcionServicio" [(ngModel)]="item.Descripcion_Servicio" readonly></textarea>
                     <div class="alert alert-danger mt-1"
                         [hidden]="formGetCreateItem('descripcionServicio').valid || (formGetCreateItem('descripcionServicio').pristine)">
                         El campo no puede estar Vacio.
@@ -90,7 +89,7 @@
             <div class="content-form-item">
                 <div class="form">
                     <label class="title">Forma del Pago</label>
-                    <input class="form-data" type="text" formControlName="formaPago" [(ngModel)]="item.forma_pago">
+                    <input class="form-data" type="text" formControlName="formaPago" [(ngModel)]="item.Forma_Pago">
                     <i class="fa-solid fa-comments-dollar"></i>
                     <div class="alert alert-danger mt-1"
                         [hidden]="formGetCreateItem('formaPago').valid || (formGetCreateItem('formaPago').pristine)">
@@ -99,7 +98,7 @@
                 </div>
                 <div class="form">
                     <label class="title">Descuento</label>
-                    <input class="form-data" type="number" formControlName="descuento" [(ngModel)]="item.descuento" (keyup)="onInputChange($event)">
+                    <input class="form-data" type="number" formControlName="descuento" [(ngModel)]="item.Descuento" (keyup)="onInputChange($event)">
                     <i class="fa-solid fa-percent"></i>
                     <div
                         *ngIf="formGetCreateItem('descuento').invalid && (formGetCreateItem('descuento').dirty || formGetCreateItem('descuento').touched)">
@@ -116,7 +115,7 @@
             <div class="content-form-item">
                 <div class="form">
                     <label class="title">Precio</label>
-                    <input class="form-data" type="text" formControlName="precio" [(ngModel)]="item.precio" readonly>
+                    <input class="form-data" type="text" formControlName="precio" [(ngModel)]="item.Precio" readonly>
                     <i class="fa-solid fa-money-bill-1"></i>
                     <div class="alert alert-danger mt-1"
                         [hidden]="formGetCreateItem('precio').valid || (formGetCreateItem('precio').pristine)" >
@@ -125,7 +124,7 @@
                 </div>
                 <div class="form">
                     <label class="title">Pago</label>
-                    <input class="form-data" type="text" formControlName="pago" [(ngModel)]="item.pago">
+                    <input class="form-data" type="text" formControlName="pago" [(ngModel)]="item.Pago">
                     <i class="fa-solid fa-circle-dollar-to-slot"></i>
                     <div class="alert alert-danger mt-1"
                         [hidden]="formGetCreateItem('pago').valid || (formGetCreateItem('pago').pristine)">
@@ -224,7 +223,59 @@
 <ng-template #itemAction>
     <div class="container-action">
         <h1 class="title-action">¿Qué acción desea realizar?</h1>
-        <button class="btn-action btn-primary" (click)="viewFormNull()">Ver Información</button>
+        <button class="btn-action btn-primary" (click)="openDialogWithTemplate(info)">Ver Información</button>
         <button class="btn-action btn-primary" (click)="openDialogWithTemplate(formCreate)">Agregar pago</button>
+    </div>
+</ng-template>
+
+<ng-template #info>
+    <div class="container-info" >
+        <div class="content-left">
+            
+        </div>
+    
+        <div class="content-right">
+            <h1  class="content-left-title">Información del pago</h1>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Cedula</strong></h2>
+                <span class="content-right-content-text">{{item.Cedula_Propietario}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Nombre del Propietario</strong></h2>
+                <span class="content-right-content-text">{{item.Nombre_Propietario}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Fecha de la cita</strong></h2>
+                <span class="content-right-content-text">{{item.Fecha_Cita}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Hora de la cita</strong></h2>
+                <span class="content-right-content-text">{{item.Hora_Cita}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Tipo de servicio</strong></h2>
+                <span class="content-right-content-text">{{item.Tipo_Servicio}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Descripcion del servicio</strong></h2>
+                <span class="content-right-content-text">{{item.Descripcion_Servicio}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Forma del pago</strong></h2>
+                <span class="content-right-content-text">{{item.Forma_Pago}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Descuento</strong></h2>
+                <span class="content-right-content-text">{{item.Descuento}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Precio</strong></h2>
+                <span class="content-right-content-text">{{item.Precio}}</span>
+            </div>
+            <div class="content-right-content">
+                <h2 class="content-right-content-text"><strong>Pago</strong></h2>
+                <span class="content-right-content-text">{{item.Pago}}</span>
+            </div>
+        </div>
     </div>
 </ng-template>

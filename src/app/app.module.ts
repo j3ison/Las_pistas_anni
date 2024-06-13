@@ -46,6 +46,9 @@ import { SubTabletComponent } from './module/sub-tablet/sub-tablet.component';
 import { FormsModule } from '@angular/forms';
 import {MatTooltipModule} from '@angular/material/tooltip';
 
+import { HttpClientModule } from '@angular/common/http';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -89,7 +92,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     FullCalendarModule,
     DialogModule,
     FormsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    HttpClientModule
     
   ],
   
