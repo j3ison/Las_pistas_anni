@@ -178,7 +178,6 @@ export class ServiciosComponent implements OnInit {
 
   ngOnInit(): void {
 
-    console.log(this.item)
     this.dataGlobalservice.$itemView.subscribe(item => {
       this.item = item
 
@@ -295,11 +294,12 @@ export class ServiciosComponent implements OnInit {
       confirmButtonText: "¡Sí, Actualizalo!"
     }).then((result) => {
 
+      
       if (result.isConfirmed) {
 
 
-
-        this.apiService.postData('infoServicio/insertar-servicio', {
+        this.apiService.postData('infoServicio/actualizar-servicio', {
+          id_servicio:this.item.id_servicio,
           nuevo_tipo_servicio: this.formUpdateItem.get('tipoServicio')?.value,
           nueva_descripcion: this.formUpdateItem.get('descripcion')?.value,
           nuevo_precio: this.formUpdateItem.get('precio')?.value,

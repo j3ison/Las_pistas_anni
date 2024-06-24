@@ -136,12 +136,12 @@
             <div class="content-form-item">
                 <div class="form">
                     <label class="title">Tipo de Servicio</label>
-                    <input class="form-data" type="text" formControlName="tipoServicio">
+                    <input class="form-data" type="text" formControlName="tipoServicio" [(ngModel)]="item.tipo_servicio">
                     <i class="fa-solid fa-address-book"></i>
                 </div>
                 <div class="form">
                     <label class="title">Precio</label>
-                    <input class="form-data" type="text" formControlName="precio" >
+                    <input class="form-data" type="text" formControlName="precio" [(ngModel)]="item.precio">
                     <i class="fa-solid fa-address-book"></i>
                 </div>
             </div>
@@ -149,7 +149,7 @@
             <div class="content-form-item">
                 <mat-form-field class="form">
                     <mat-label>Descripción del servicio</mat-label>
-                    <textarea matInput placeholder="" formControlName="descripcion"></textarea>
+                    <textarea matInput placeholder="" formControlName="descripcion" [(ngModel)]="item.descripcion"></textarea>
                 </mat-form-field>
             </div>
             <div class="form-button">

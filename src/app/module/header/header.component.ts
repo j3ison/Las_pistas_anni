@@ -139,6 +139,7 @@ export class HeaderComponent implements OnInit {
 
   clickLogout() {
     // this.auth.logout()
+    this.router.navigate(['/login']);
   }
 
   getActiveClass(data: string): string {

@@ -31,138 +31,7 @@ interface MascotaPropietario {
   styleUrls: ['./mascotas.component.css']
 })
 export class MascotasComponent implements OnInit {
-  myData$: any[] = [
-    {
-      idMascota: 1,
-      idPropietario: 1,
-      fecha_nacimiento: '2018-05-20',
-      especie: 'Perro',
-      sexo: 'Macho',
-      nombre_mascota: 'Max',
-      historial: 'Vacunas al día',
-      nombre_propietario: 'Juan',
-      direccion: 'Calle 123',
-      cedula: '1234567890',
-      telefono: '123456789'
-    },
-    {
-      idMascota: 2,
-      idPropietario: 1,
-      fecha_nacimiento: '2019-02-10',
-      especie: 'Gato',
-      sexo: 'Hembra',
-      nombre_mascota: 'Luna',
-      historial: 'Desparasitación realizada',
-      nombre_propietario: 'Juan',
-      direccion: 'Calle 123',
-      cedula: '1234567890',
-      telefono: '123456789'
-    },
-    {
-      idMascota: 3,
-      idPropietario: 2,
-      fecha_nacimiento: '2020-10-15',
-      especie: 'Perro',
-      sexo: 'Hembra',
-      nombre_mascota: 'Bella',
-      historial: 'Control veterinario anual',
-      nombre_propietario: 'María',
-      direccion: 'Avenida 456',
-      cedula: '0987654321',
-      telefono: '987654321'
-    },
-    {
-      idMascota: 4,
-      idPropietario: 3,
-      fecha_nacimiento: '2017-08-03',
-      especie: 'Gato',
-      sexo: 'Macho',
-      nombre_mascota: 'Simba',
-      historial: 'Esterilización realizada',
-      nombre_propietario: 'Pedro',
-      direccion: 'Carrera 789',
-      cedula: '1357924680',
-      telefono: '246801357'
-    },
-    {
-      idMascota: 5,
-      idPropietario: 4,
-      fecha_nacimiento: '2019-11-25',
-      especie: 'Perro',
-      sexo: 'Macho',
-      nombre_mascota: 'Rocky',
-      historial: 'Vacunas al día',
-      nombre_propietario: 'Ana',
-      direccion: 'Avenida 246',
-      cedula: '9753106428',
-      telefono: '369852147'
-    },
-    {
-      idMascota: 6,
-      idPropietario: 5,
-      fecha_nacimiento: '2016-04-12',
-      especie: 'Perro',
-      sexo: 'Macho',
-      nombre_mascota: 'Bruno',
-      historial: 'Control de peso mensual',
-      nombre_propietario: 'Luis',
-      direccion: 'Calle 789',
-      cedula: '7531902468',
-      telefono: '258369147'
-    },
-    {
-      idMascota: 7,
-      idPropietario: 6,
-      fecha_nacimiento: '2018-09-30',
-      especie: 'Gato',
-      sexo: 'Hembra',
-      nombre_mascota: 'Mia',
-      historial: 'Desparasitación realizada',
-      nombre_propietario: 'Sofía',
-      direccion: 'Carrera 135',
-      cedula: '3698521470',
-      telefono: '147258369'
-    },
-    {
-      idMascota: 8,
-      idPropietario: 7,
-      fecha_nacimiento: '2020-02-18',
-      especie: 'Perro',
-      sexo: 'Macho',
-      nombre_mascota: 'Coco',
-      historial: 'Vacunas al día',
-      nombre_propietario: 'Elena',
-      direccion: 'Avenida 753',
-      cedula: '8523691470',
-      telefono: '369147258'
-    },
-    {
-      idMascota: 9,
-      idPropietario: 8,
-      fecha_nacimiento: '2017-06-08',
-      especie: 'Perro',
-      sexo: 'Hembra',
-      nombre_mascota: 'Luna',
-      historial: 'Control veterinario anual',
-      nombre_propietario: 'Diego',
-      direccion: 'Calle 369',
-      cedula: '1472583690',
-      telefono: '852369147'
-    },
-    {
-      idMascota: 10,
-      idPropietario: 8,
-      fecha_nacimiento: '2019-12-20',
-      especie: 'Gato',
-      sexo: 'Hembra',
-      nombre_mascota: 'Luna',
-      historial: 'Esterilización realizada',
-      nombre_propietario: 'Diego',
-      direccion: 'Calle 369',
-      cedula: '1472583690',
-      telefono: '852369147'
-    },
-  ];
+  myData$: any[] = []
 
   tableColumns = [
     { label: 'Cedula', def: 'Cedula', dataKey: 'Cedula' },
@@ -296,6 +165,18 @@ export class MascotasComponent implements OnInit {
       cancelButtonColor: "#d33",
       confirmButtonText: "¡Sí, Guardalo!"
     }).then((result) => {
+
+      console.log({
+        fecha_nacimiento: this.formCreateItem.get('fechaNacimiento')?.value,
+        especie: this.formCreateItem.get('especie')?.value,
+        sexo: this.formCreateItem.get('sexo')?.value,
+        nombre_mascota: this.formCreateItem.get('nombreMascota')?.value,
+        raza: this.formCreateItem.get('raza')?.value,
+        nombre_propietario: this.formCreateItem.get('nombrePropietario')?.value,
+        direccion: this.formCreateItem.get('direccion')?.value,
+        cedula: this.formCreateItem.get('cedula')?.value,
+        telefono: this.formCreateItem.get('telefono')?.value
+      })
 
       if (result.isConfirmed) {
 
